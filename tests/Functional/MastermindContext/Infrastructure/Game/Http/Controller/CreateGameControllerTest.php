@@ -6,6 +6,7 @@ namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http\Contro
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 final class CreateGameControllerTest extends WebTestCase
 {
@@ -15,6 +16,10 @@ final class CreateGameControllerTest extends WebTestCase
 
         $client->request('POST', '/api/game');
 
+        $requestResponse = json_decode($client->getResponse()->getContent(), true);
+
         self::assertSame(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
+        self::assertArrayHasKey('id', $requestResponse);
+        self::assertTrue(Uuid::isValid($requestResponse['id']));
     }
 }
