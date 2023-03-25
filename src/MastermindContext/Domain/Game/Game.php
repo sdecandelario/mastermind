@@ -6,20 +6,25 @@ namespace App\MastermindContext\Domain\Game;
 
 final class Game
 {
-    private GameId $id;
-
-    public function __construct(GameId $id)
+    public function __construct(
+        private readonly GameId $id,
+        private GameStatus $status
+    )
     {
-        $this->id = $id;
     }
 
     public static function create(GameId $gameId): Game
     {
-        return new self($gameId);
+        return new self($gameId, GameStatus::Started);
     }
 
     public function id(): GameId
     {
         return $this->id;
+    }
+
+    public function isStarted(): bool
+    {
+        return GameStatus::Started === $this->status;
     }
 }

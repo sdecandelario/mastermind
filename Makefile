@@ -1,3 +1,5 @@
+
+
 enter:
 	#enter into the php container
 	docker-compose exec php bash
@@ -14,6 +16,14 @@ build:
 	#build php container
 	docker-compose build php
 
-make-functional-tests:
+functional-tests:
 	#execute functional tests
 	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Functional
+
+generate-migration:
+	#generate a new migration from the changes on the mapping files
+	docker-compose exec php bin/console doctrine:migrations:diff
+
+execute-migrations:
+	#execute all the pending migrations
+	docker-compose exec php bin/console doctrine:migrations:migrate -n

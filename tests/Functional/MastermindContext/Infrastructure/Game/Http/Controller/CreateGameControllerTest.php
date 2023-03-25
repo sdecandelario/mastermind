@@ -35,5 +35,6 @@ final class CreateGameControllerTest extends WebTestCase
         $game = $gameRepository->findById(GameId::createFromString($response['id']));
 
         self::assertSame($response['id'], $game->id()->id()->toRfc4122());
+        self::assertTrue($game->isStarted());
     }
 }

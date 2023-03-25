@@ -6,6 +6,8 @@
 
     <entity name="App\MastermindContext\Domain\Game\Game" table="game">
         <id name="id" type="game_id" column="id"></id>
+
+        <field name="status" column="status" type="game_status" length="50" nullable="false" />
     </entity>
 
 </doctrine-mapping>
