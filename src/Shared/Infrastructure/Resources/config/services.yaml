@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Shared\Domain\Command\CommandBusInterface:
+        class: App\Shared\Infrastructure\Command\SymfonyMessengerCommandBus

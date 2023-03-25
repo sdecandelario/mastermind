@@ -13,6 +13,11 @@ final class Game
         $this->id = $id;
     }
 
+    public static function create(GameId $gameId): Game
+    {
+        return new self($gameId);
+    }
+
     public function id(): GameId
     {
         return $this->id;

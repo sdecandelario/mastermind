@@ -21,4 +21,10 @@ final class DoctrineGameRepository extends ServiceEntityRepository implements Ga
     {
         return $this->find($id->id()->toRfc4122());
     }
+
+    public function save(Game $game): void
+    {
+        $this->getEntityManager()->persist($game);
+        $this->getEntityManager()->flush();
+    }
 }

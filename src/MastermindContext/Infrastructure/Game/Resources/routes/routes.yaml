@@ -1,4 +1,4 @@
 new_game:
     path: /game
-    controller: App\MastermindContext\Infrastructure\Game\Http\Controller\CreateGameController
+    controller: App\MastermindContext\Infrastructure\Game\Http\CreateGameController
     methods: POST
