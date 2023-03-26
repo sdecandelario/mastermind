@@ -20,8 +20,6 @@ final class CreateGameControllerTest extends WebTestCase
 
         $client->request('POST', '/api/game');
 
-        var_dump(getenv('DATABASE_URL'));
-
         $response = json_decode($client->getResponse()->getContent(), true);
 
         self::assertSame(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
@@ -37,8 +35,6 @@ final class CreateGameControllerTest extends WebTestCase
         $entityManager->clear();
 
         $game = $gameRepository->findById(GameId::createFromString($response['id']));
-
-        var_dump($game->secretCode()->value());
 
         self::assertSame($response['id'], $game->id()->id()->toRfc4122());
         self::assertTrue($game->isStarted());
