@@ -25,7 +25,8 @@ class ColorCodeTest extends TestCase
     public function testInvalidLengthThrowAnException(string $value)
     {
         $this->expectException(InvalidColorCodeLengthException::class);
+        $this->expectExceptionMessage('Invalid length, should be exactly 4 characters');
 
-        $colorCode = ColorCode::create($value);
+        ColorCode::create($value);
     }
 }

@@ -6,7 +6,7 @@ namespace App\MastermindContext\Domain\ColorCode;
 
 final class InvalidColorCodeLengthException extends \Exception
 {
-    public function create(): InvalidColorCodeLengthException
+    public static function create(): InvalidColorCodeLengthException
     {
         return new self('Invalid length, should be exactly 4 characters');
     }

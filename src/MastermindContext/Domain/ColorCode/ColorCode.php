@@ -10,9 +10,24 @@ final class ColorCode
     {
     }
 
+    /**
+     * @throws InvalidColorCodeLengthException
+     */
     public static function create(string $value): ColorCode
     {
+        self::checkLength($value);
+
         return new self($value);
+    }
+
+    /**
+     * @throws InvalidColorCodeLengthException
+     */
+    private static function checkLength(string $value): void
+    {
+        if(strlen($value)!==4){
+            throw InvalidColorCodeLengthException::create();
+        }
     }
 
     public function value(): string
