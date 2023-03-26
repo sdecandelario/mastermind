@@ -25,6 +25,23 @@ final class ColorCode
         return new self($firstValue, $secondValue, $thirdValue, $fourthValue);
     }
 
+    public static function random(): ColorCode
+    {
+        return new self(
+            self::createRandomColor(),
+            self::createRandomColor(),
+            self::createRandomColor(),
+            self::createRandomColor(),
+        );
+    }
+
+    private static function createRandomColor(): ColorCodeValue
+    {
+        $colorIndex = random_int(0,3);
+
+        return ColorCodeValue::cases()[$colorIndex];
+    }
+
     public function value(): string
     {
         return sprintf(

@@ -18,7 +18,7 @@ final class Game
 
     public static function create(GameId $gameId): Game
     {
-        return new self($gameId, GameStatus::Started);
+        return new self($gameId, GameStatus::Started, ColorCode::random());
     }
 
     public function id(): GameId

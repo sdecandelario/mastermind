@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class ColorCodeTest extends TestCase
 {
-    public function testCreateSuccess()
+    public function testCreateByValuesSuccess()
     {
         $expectedColorCode = sprintf(
             '%s%s%s%s',
@@ -26,5 +26,12 @@ class ColorCodeTest extends TestCase
         );
 
         self::assertSame($expectedColorCode, $colorCode->value());
+    }
+
+    public function testCreateByRandomSuccess()
+    {
+        $result = ColorCode::random();
+
+        self::assertTrue(mb_strlen($result->value()) === 4);
     }
 }
