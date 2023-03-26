@@ -17,7 +17,7 @@ final class DoctrineGameRepository extends ServiceEntityRepository implements Ga
         parent::__construct($registry, Game::class);
     }
 
-    public function findById(GameId $id): Game
+    public function findById(GameId $id): ?Game
     {
         return $this->find($id);
     }

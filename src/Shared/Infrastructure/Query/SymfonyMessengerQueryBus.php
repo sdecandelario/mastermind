@@ -11,12 +11,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class SymfonyMessengerQueryBus implements QueryBusInterface
 {
-    public function __construct(private readonly MessageBusInterface $messageBus)
+    public function __construct(private readonly MessageBusInterface $queryBus)
     {
     }
 
     public function ask(QueryInterface $command): QueryResultInterface
     {
-        $this->messageBus->dispatch($command);
+        return $this->queryBus->dispatch($command);
     }
 }
