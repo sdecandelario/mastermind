@@ -16,8 +16,10 @@ final class GetGameQueryHandler
     /**
      * @throws GameNotFoundException
      */
-    public function __invoke(GetGameQuery $query): void
+    public function __invoke(GetGameQuery $query): GetGameQueryResult
     {
         $game = $this->gameFinder->findOrFail($query->gameId());
+
+        return GetGameQueryResult::create($game);
     }
 }

@@ -8,7 +8,7 @@ use App\MastermindContext\Domain\ColorCode\ColorCode;
 
 final class Game
 {
-    public function __construct(
+    private function __construct(
         private readonly GameId $id,
         private GameStatus $status,
         private ColorCode $secretCode
@@ -23,6 +23,11 @@ final class Game
     public function id(): GameId
     {
         return $this->id;
+    }
+
+    public function status(): GameStatus
+    {
+        return $this->status;
     }
 
     public function secretCode(): ColorCode

@@ -8,6 +8,7 @@ use App\Shared\Domain\Query\QueryBusInterface;
 use App\Shared\Domain\Query\QueryInterface;
 use App\Shared\Domain\Query\QueryResultInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class SymfonyMessengerQueryBus implements QueryBusInterface
 {
@@ -17,6 +18,8 @@ final class SymfonyMessengerQueryBus implements QueryBusInterface
 
     public function ask(QueryInterface $command): QueryResultInterface
     {
-        return $this->queryBus->dispatch($command);
+        $envelope = $this->queryBus->dispatch($command);
+
+        return $envelope->last(HandledStamp::class)->getResult();
     }
 }

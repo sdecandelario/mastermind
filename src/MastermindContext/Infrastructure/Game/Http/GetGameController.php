@@ -21,8 +21,8 @@ final class GetGameController
      */
     public function __invoke(string $id): JsonResponse
     {
-        $this->queryBus->ask(new GetGameQuery(GameId::createFromString($id)));
+        $result = $this->queryBus->ask(new GetGameQuery(GameId::createFromString($id)));
 
-        return new JsonResponse();
+        return new JsonResponse($result->toArray());
     }
 }
