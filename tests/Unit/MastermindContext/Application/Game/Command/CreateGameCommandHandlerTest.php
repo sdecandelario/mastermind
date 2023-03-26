@@ -31,11 +31,14 @@ class CreateGameCommandHandlerTest extends TestCase
         $this->gameRepository
             ->expects(self::once())
             ->method('save')
-            ->with(self::callback(function (Game $game) use ($gameId) {
-                self::assertSame($gameId, $game->id());
-                self::assertTrue($game->isStarted());
-                return true;
-            }));
+            ->with(
+                self::callback(function (Game $game) use ($gameId) {
+                    self::assertSame($gameId, $game->id());
+                    self::assertTrue($game->isStarted());
+
+                    return true;
+                })
+            );
 
         $this->sut->__invoke(new CreateGameCommand($gameId));
     }

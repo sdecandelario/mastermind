@@ -12,8 +12,7 @@ final class Game
         private readonly GameId $id,
         private GameStatus $status,
         private ColorCode $secretCode
-    )
-    {
+    ) {
     }
 
     public static function create(GameId $gameId): Game

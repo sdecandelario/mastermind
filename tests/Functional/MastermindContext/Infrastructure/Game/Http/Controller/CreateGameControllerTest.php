@@ -42,6 +42,6 @@ final class CreateGameControllerTest extends WebTestCase
 
         self::assertSame($response['id'], $game->id()->id()->toRfc4122());
         self::assertTrue($game->isStarted());
-        self::assertTrue(mb_strlen($game->secretCode()->value())===4);
+        self::assertTrue(4 === mb_strlen($game->secretCode()->value()));
     }
 }

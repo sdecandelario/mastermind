@@ -9,5 +9,5 @@ enum ColorCodeValue: string
     case Red = 'R';
     case Yellow = 'Y';
     case Green = 'G';
-    case Blue='B';
+    case Blue = 'B';
 }

@@ -10,7 +10,6 @@ use Doctrine\DBAL\Types\Type;
 
 final class GameIdType extends Type
 {
-
     public function convertToPHPValue($value, AbstractPlatform $platform): GameId
     {
         return GameId::createFromString($value);

@@ -22,6 +22,6 @@ final class CreateGameController
 
         $this->commandBus->dispatch(new CreateGameCommand($gameId));
 
-        return new JsonResponse(['id' => (string)$gameId], Response::HTTP_CREATED);
+        return new JsonResponse(['id' => (string) $gameId], Response::HTTP_CREATED);
     }
 }

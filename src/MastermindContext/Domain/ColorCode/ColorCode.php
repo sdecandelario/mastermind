@@ -11,8 +11,7 @@ final class ColorCode
         private readonly ColorCodeValue $secondValue,
         private readonly ColorCodeValue $thirdValue,
         private readonly ColorCodeValue $fourthValue,
-    )
-    {
+    ) {
     }
 
     public static function create(
@@ -20,8 +19,7 @@ final class ColorCode
         ColorCodeValue $secondValue,
         ColorCodeValue $thirdValue,
         ColorCodeValue $fourthValue
-    ): ColorCode
-    {
+    ): ColorCode {
         return new self($firstValue, $secondValue, $thirdValue, $fourthValue);
     }
 

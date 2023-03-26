@@ -7,8 +7,8 @@
     <entity name="App\MastermindContext\Domain\Game\Game" table="game">
         <id name="id" type="game_id" column="id"></id>
 
-        <field name="status" column="status" type="game_status" length="50" nullable="false" />
-        <field name="secretCode" column="secret_code" type="color_code" length="4" nullable="false" />
+        <field name="status" column="status" type="game_status" length="50" nullable="false"/>
+        <field name="secretCode" column="secret_code" type="color_code" length="4" nullable="false"/>
     </entity>
 
 </doctrine-mapping>

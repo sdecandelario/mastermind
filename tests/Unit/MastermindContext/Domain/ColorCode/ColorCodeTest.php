@@ -32,6 +32,6 @@ class ColorCodeTest extends TestCase
     {
         $result = ColorCode::random();
 
-        self::assertTrue(mb_strlen($result->value()) === 4);
+        self::assertTrue(4 === mb_strlen($result->value()));
     }
 }
