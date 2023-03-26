@@ -5,3 +5,6 @@ services:
 
     App\Shared\Domain\Command\CommandBusInterface:
         class: App\Shared\Infrastructure\Command\SymfonyMessengerCommandBus
+
+    App\Shared\Domain\Query\QueryBusInterface:
+            class: App\Shared\Infrastructure\Query\SymfonyMessengerQueryBus

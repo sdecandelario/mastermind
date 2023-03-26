@@ -1,4 +1,9 @@
-new_game:
+create_game:
     path: /game
     controller: App\MastermindContext\Infrastructure\Game\Http\CreateGameController
     methods: POST
+
+get_game:
+    path: /game/{id}
+    controller: App\MastermindContext\Infrastructure\Game\Http\GetGameController
+    methods: GET

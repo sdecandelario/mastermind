@@ -13,7 +13,7 @@ final class GetGameControllerTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/api/game');
+        $client->request('GET', '/api/game/anId');
 
         self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
