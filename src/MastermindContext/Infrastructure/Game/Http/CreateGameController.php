@@ -20,8 +20,8 @@ final class CreateGameController
     {
         $gameId = GameId::create();
 
-        $this->commandBus->dispatch(new CreateGameCommand($gameId->id()->toRfc4122()));
+        $this->commandBus->dispatch(new CreateGameCommand($gameId));
 
-        return new JsonResponse(['id' => $gameId->id()->toRfc4122()], Response::HTTP_CREATED);
+        return new JsonResponse(['id' => (string)$gameId], Response::HTTP_CREATED);
     }
 }

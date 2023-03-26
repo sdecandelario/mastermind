@@ -19,7 +19,7 @@ final class DoctrineGameRepository extends ServiceEntityRepository implements Ga
 
     public function findById(GameId $id): Game
     {
-        return $this->find($id->id()->toRfc4122());
+        return $this->find($id);
     }
 
     public function save(Game $game): void

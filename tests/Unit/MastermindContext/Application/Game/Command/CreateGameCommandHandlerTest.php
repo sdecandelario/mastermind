@@ -32,11 +32,11 @@ class CreateGameCommandHandlerTest extends TestCase
             ->expects(self::once())
             ->method('save')
             ->with(self::callback(function (Game $game) use ($gameId) {
-                self::assertSame($gameId->id()->toRfc4122(), $game->id()->id()->toRfc4122());
+                self::assertSame($gameId, $game->id());
                 self::assertTrue($game->isStarted());
                 return true;
             }));
 
-        $this->sut->__invoke(new CreateGameCommand($gameId->id()));
+        $this->sut->__invoke(new CreateGameCommand($gameId));
     }
 }
