@@ -9,6 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class GetGameControllerTest extends WebTestCase
 {
+    public function testInvalidGameId()
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/api/game/anId');
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertSame(['error' => "The id 'anId' is not a valid uuid"], $jsonResponse);
+    }
+
     public function testGameRetrieved()
     {
         $client = self::createClient();

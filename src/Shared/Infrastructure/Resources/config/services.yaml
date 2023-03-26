@@ -7,4 +7,8 @@ services:
         class: App\Shared\Infrastructure\Command\SymfonyMessengerCommandBus
 
     App\Shared\Domain\Query\QueryBusInterface:
-            class: App\Shared\Infrastructure\Query\SymfonyMessengerQueryBus
+        class: App\Shared\Infrastructure\Query\SymfonyMessengerQueryBus
+
+    App\Shared\Infrastructure\EventListener\ExceptionEventListener:
+        tags: [kernel.event_listener]
+

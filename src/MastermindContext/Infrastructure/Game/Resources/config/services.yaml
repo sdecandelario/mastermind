@@ -21,3 +21,6 @@ services:
             tags:
                 - { name: messenger.message_handler, bus: query.bus }
 
+    App\MastermindContext\Domain\Game\Service\:
+        resource: '../../../../Domain/Game/Service'
+
