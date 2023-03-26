@@ -37,7 +37,7 @@ final class ColorCode
 
     private static function createRandomColor(): ColorCodeValue
     {
-        $colorIndex = random_int(0,3);
+        $colorIndex = random_int(0, 3);
 
         return ColorCodeValue::cases()[$colorIndex];
     }
