@@ -8,7 +8,7 @@ use App\MastermindContext\Domain\Game\GameId;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-final class MakeGuessController extends WebTestCase
+final class MakeGuessTest extends WebTestCase
 {
     public function testInvalidGameId()
     {

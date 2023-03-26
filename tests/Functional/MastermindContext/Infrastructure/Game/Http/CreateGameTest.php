@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
 
-final class CreateGameController extends WebTestCase
+final class CreateGameTest extends WebTestCase
 {
     public function testGameIsCreated()
     {

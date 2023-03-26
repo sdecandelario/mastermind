@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-final class GetGameController extends WebTestCase
+final class GetGameTest extends WebTestCase
 {
     public function testInvalidGameId()
     {
