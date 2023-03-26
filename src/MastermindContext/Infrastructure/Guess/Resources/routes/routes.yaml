@@ -1,0 +1,4 @@
+create_guess:
+    path: /game/{id}/guess
+    controller: App\MastermindContext\Infrastructure\Guess\Http\MakeGuessController
+    methods: POST
