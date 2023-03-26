@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http\Controller;
+namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http;
 
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
 
-final class CreateGameControllerTest extends WebTestCase
+final class CreateGameController extends WebTestCase
 {
     public function testGameIsCreated()
     {

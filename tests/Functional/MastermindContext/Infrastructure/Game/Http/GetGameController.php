@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http\Controller;
+namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http;
 
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-final class GetGameControllerTest extends WebTestCase
+final class GetGameController extends WebTestCase
 {
     public function testInvalidGameId()
     {
