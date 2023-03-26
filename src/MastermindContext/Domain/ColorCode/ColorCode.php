@@ -6,32 +6,33 @@ namespace App\MastermindContext\Domain\ColorCode;
 
 final class ColorCode
 {
-    private function __construct(private readonly string $value)
+    private function __construct(
+        private readonly ColorCodeValue $firstValue,
+        private readonly ColorCodeValue $secondValue,
+        private readonly ColorCodeValue $thirdValue,
+        private readonly ColorCodeValue $fourthValue,
+    )
     {
     }
 
-    /**
-     * @throws InvalidColorCodeLengthException
-     */
-    public static function create(string $value): ColorCode
+    public static function create(
+        ColorCodeValue $firstValue,
+        ColorCodeValue $secondValue,
+        ColorCodeValue $thirdValue,
+        ColorCodeValue $fourthValue
+    ): ColorCode
     {
-        self::checkLength($value);
-
-        return new self($value);
-    }
-
-    /**
-     * @throws InvalidColorCodeLengthException
-     */
-    private static function checkLength(string $value): void
-    {
-        if(strlen($value)!==4){
-            throw InvalidColorCodeLengthException::create();
-        }
+        return new self($firstValue, $secondValue, $thirdValue, $fourthValue);
     }
 
     public function value(): string
     {
-        return $this->value;
+        return sprintf(
+            '%s%s%s%s',
+            $this->firstValue->value,
+            $this->secondValue->value,
+            $this->thirdValue->value,
+            $this->fourthValue->value
+        );
     }
 }
