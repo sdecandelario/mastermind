@@ -12,7 +12,8 @@ final class Guess
     private function __construct(
         private readonly GuessId $id,
         private readonly Game $game,
-        private readonly ColorCode $colorCode
+        private readonly ColorCode $colorCode,
+        private int $blackPeg = 0
     ) {
     }
 
@@ -29,5 +30,15 @@ final class Guess
     public function colorCode(): ColorCode
     {
         return $this->colorCode;
+    }
+
+    public function blackPeg(): int
+    {
+        return $this->blackPeg;
+    }
+
+    public function calculateBlackPegs(ColorCode $secretCode): void
+    {
+        $this->blackPeg = $this->colorCode->checkBlackPegs($secretCode);
     }
 }

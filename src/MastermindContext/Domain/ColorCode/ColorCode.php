@@ -100,4 +100,27 @@ final class ColorCode
             $this->fourthValue->value
         );
     }
+
+    public function checkBlackPegs(ColorCode $colorCode): int
+    {
+        $matchedPegs = 0;
+
+        if ($this->firstValue === $colorCode->firstValue) {
+            ++$matchedPegs;
+        }
+
+        if ($this->secondValue === $colorCode->secondValue) {
+            ++$matchedPegs;
+        }
+
+        if ($this->thirdValue === $colorCode->thirdValue) {
+            ++$matchedPegs;
+        }
+
+        if ($this->fourthValue === $colorCode->fourthValue) {
+            ++$matchedPegs;
+        }
+
+        return $matchedPegs;
+    }
 }

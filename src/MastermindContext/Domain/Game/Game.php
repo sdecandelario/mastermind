@@ -21,13 +21,17 @@ final class Game
         $this->guesses = new ArrayCollection();
     }
 
-    public static function create(GameId $gameId): Game
-    {
-        return new self($gameId, GameStatus::Started, ColorCode::random());
+    public static function create(
+        GameId $gameId,
+        ?ColorCode $colorCode = null
+    ): Game {
+        return new self($gameId, GameStatus::Started, $colorCode ?? ColorCode::random());
     }
 
     public function addGuess(Guess $guess): void
     {
+        $guess->calculateBlackPegs($this->secretCode);
+
         $this->guesses->add($guess);
 
         if (1 === $this->guesses->count()) {

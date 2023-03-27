@@ -7,6 +7,11 @@
     <entity name="App\MastermindContext\Domain\Guess\Guess" table="guess">
         <id name="id" type="guess_id" column="id"></id>
         <field name="colorCode" column="color_code" type="color_code" length="4" nullable="false"/>
+        <field name="blackPeg" column="black_peg" type="integer" nullable="false" default="0">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
         <many-to-one field="game" target-entity="App\MastermindContext\Domain\Game\Game" inversed-by="guesses"/>
     </entity>
 
