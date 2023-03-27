@@ -8,5 +8,5 @@ enum GameStatus: string
 {
     case Started = 'Started';
     case InProgress = 'InProgress';
-    case Finished = 'Finished';
+    case Won = 'Won';
 }

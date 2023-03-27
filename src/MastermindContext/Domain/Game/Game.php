@@ -16,7 +16,7 @@ final class Game
     private function __construct(
         private readonly GameId $id,
         private GameStatus $status,
-        private ColorCode $secretCode
+        private ColorCode $secretCode,
     ) {
         $this->guesses = new ArrayCollection();
     }
@@ -62,6 +62,11 @@ final class Game
     public function isInProgress(): bool
     {
         return GameStatus::InProgress === $this->status;
+    }
+
+    public function isWinner(): bool
+    {
+        return GameStatus::Won === $this->status;
     }
 
     public function guesses(): Collection

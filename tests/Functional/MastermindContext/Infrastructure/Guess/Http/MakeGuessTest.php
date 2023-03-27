@@ -197,4 +197,36 @@ final class MakeGuessTest extends WebTestCase
         self::assertCount(1, $savedGame->guesses());
         self::assertSame(1, $guess->whitePeg());
     }
+
+    public function testMakeAWinnerGuessEndsTheGame()
+    {
+        $colorCode = ColorCode::createFromString('RYGB');
+        $game = GameBuilder::create()->withColorCode($colorCode)->build();
+        $this->gameRepository->save($game);
+
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => 'RYGB',
+        ]);
+
+        self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('id', $jsonResponse);
+
+        $entityManager = $this->container->get(EntityManagerInterface::class);
+
+        $entityManager->clear();
+
+        $savedGame = $this->gameRepository->findById($game->id());
+
+        /**
+         * @var Guess $guess
+         */
+        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+
+        self::assertTrue($savedGame->isWinner());
+        self::assertCount(1, $savedGame->guesses());
+        self::assertSame(4, $guess->blackPeg());
+    }
 }
