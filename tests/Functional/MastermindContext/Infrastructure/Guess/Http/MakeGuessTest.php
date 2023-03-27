@@ -70,5 +70,6 @@ final class MakeGuessTest extends WebTestCase
         $savedGame = $this->gameRepository->findById($game->id());
 
         self::assertTrue($savedGame->isInProgress());
+        self::assertCount(1, $savedGame->guesses());
     }
 }

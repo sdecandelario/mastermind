@@ -58,4 +58,9 @@ final class Game
     {
         return GameStatus::InProgress === $this->status;
     }
+
+    public function guesses(): ArrayCollection
+    {
+        return $this->guesses;
+    }
 }
