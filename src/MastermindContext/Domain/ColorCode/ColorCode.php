@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\MastermindContext\Domain\ColorCode;
 
+use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeCombinationException;
+use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeLengthException;
+
 final class ColorCode
 {
     private function __construct(
@@ -38,6 +41,46 @@ final class ColorCode
         $colorIndex = random_int(0, 3);
 
         return ColorCodeValue::cases()[$colorIndex];
+    }
+
+    /**
+     * @throws InvalidColorCodeCombinationException
+     * @throws InvalidColorCodeLengthException
+     */
+    public static function createFromString(string $colorCode): ColorCode
+    {
+        self::validateLength($colorCode);
+
+        self::validateString($colorCode);
+
+        return new self(
+            ColorCodeValue::from($colorCode[0]),
+            ColorCodeValue::from($colorCode[1]),
+            ColorCodeValue::from($colorCode[2]),
+            ColorCodeValue::from($colorCode[3])
+        );
+    }
+
+    /**
+     * @throws InvalidColorCodeLengthException
+     */
+    public static function validateLength(string $colorCode): void
+    {
+        if (4 !== mb_strlen($colorCode)) {
+            throw InvalidColorCodeLengthException::create();
+        }
+    }
+
+    /**
+     * @throws InvalidColorCodeCombinationException
+     */
+    private static function validateString(string $colorCode): void
+    {
+        for ($i = 0; $i < mb_strlen($colorCode); ++$i) {
+            if (!in_array($colorCode[0], ColorCodeValue::cases())) {
+                throw InvalidColorCodeCombinationException::create();
+            }
+        }
     }
 
     public function value(): string

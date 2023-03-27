@@ -12,7 +12,8 @@ final class MakeGuessCommand implements CommandInterface
 {
     public function __construct(
         private readonly GuessId $guessId,
-        private readonly GameId $gameId
+        private readonly GameId $gameId,
+        private readonly string $colorCode
     ) {
     }
 
@@ -24,5 +25,10 @@ final class MakeGuessCommand implements CommandInterface
     public function gameId(): GameId
     {
         return $this->gameId;
+    }
+
+    public function colorCode(): string
+    {
+        return $this->colorCode;
     }
 }

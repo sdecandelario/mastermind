@@ -31,7 +31,7 @@ final class MakeGuessTest extends WebTestCase
         $game = GameBuilder::create()->build();
         $this->gameRepository->save($game);
 
-        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess");
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess");
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
@@ -45,8 +45,8 @@ final class MakeGuessTest extends WebTestCase
         $game = GameBuilder::create()->build();
         $this->gameRepository->save($game);
 
-        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
-            'colorCode' => '1',
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
+           'colorCode' => '1',
         ]);
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
@@ -56,21 +56,9 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(['[colorCode]' => 'This value should have exactly 4 characters.'], $jsonResponse);
     }
 
-    public function testGuessWithInvalidColorCodeCombinationReturnBadRequest()
-    {
-        $game = GameBuilder::create()->build();
-        $this->gameRepository->save($game);
-
-        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
-            'colorCode' => 'ABCD',
-        ]);
-
-        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
-    }
-
     public function testInvalidGameId()
     {
-        $this->client->request('POST', '/api/game/anId/guess', [
+        $this->client->jsonRequest('POST', '/api/game/anId/guess', [
             'colorCode' => '1234',
         ]);
 
@@ -85,7 +73,7 @@ final class MakeGuessTest extends WebTestCase
     {
         $gameId = GameId::create();
 
-        $this->client->request('POST', "/api/game/$gameId/guess", [
+        $this->client->jsonRequest('POST', "/api/game/$gameId/guess", [
             'colorCode' => '1234',
         ]);
 
@@ -96,12 +84,28 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(['error' => "Game with id {$gameId->id()->__toString()} not found"], $jsonResponse);
     }
 
+    public function testGuessWithInvalidColorCodeCombinationReturnBadRequest()
+    {
+        $game = GameBuilder::create()->build();
+        $this->gameRepository->save($game);
+
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => 'ABCD',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertSame(['error' => 'The combination is wrong, the only values accepted are (R, Y, G and B)'], $jsonResponse);
+    }
+
     public function testFirstGuessStartTheGame()
     {
         $game = GameBuilder::create()->build();
         $this->gameRepository->save($game);
 
-        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => '1234',
         ]);
 

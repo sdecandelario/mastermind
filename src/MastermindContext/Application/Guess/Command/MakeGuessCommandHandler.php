@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MastermindContext\Application\Guess\Command;
 
+use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\Exception\GameNotFoundException;
 use App\MastermindContext\Domain\Game\Service\AddGuess;
 use App\MastermindContext\Domain\Game\Service\GameFinder;
@@ -24,6 +25,8 @@ final class MakeGuessCommandHandler
     {
         $game = $this->gameFinder->findOrFail($command->gameId());
 
-        $this->addGuess->addGuess($game, Guess::create($command->guessId(), $game));
+        $guess = Guess::create($command->guessId(), $game, ColorCode::createFromString($command->colorCode()));
+
+        $this->addGuess->addGuess($game, $guess);
     }
 }

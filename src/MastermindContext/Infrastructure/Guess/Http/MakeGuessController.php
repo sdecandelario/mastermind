@@ -27,7 +27,9 @@ final class MakeGuessController
      */
     public function __invoke(Request $request, string $id): Response
     {
-        $violations = $this->makeGuessRequestValidator->validate($request->request->all());
+        $parameters = json_decode($request->getContent(), true);
+
+        $violations = $this->makeGuessRequestValidator->validate($parameters ?? []);
 
         if (count($violations) > 0) {
             return new JsonResponse($violations, Response::HTTP_BAD_REQUEST);
@@ -35,7 +37,13 @@ final class MakeGuessController
 
         $guessId = GuessId::create();
 
-        $this->commandBus->dispatch(new MakeGuessCommand($guessId, GameId::createFromString($id)));
+        $this->commandBus->dispatch(
+            new MakeGuessCommand(
+                $guessId,
+                GameId::createFromString($id),
+                $parameters['colorCode']
+            )
+        );
 
         return new JsonResponse([
             'id' => $guessId->id()->__toString(),
