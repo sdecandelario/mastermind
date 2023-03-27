@@ -7,7 +7,9 @@ namespace App\MastermindContext\Infrastructure\Guess\Http;
 use App\MastermindContext\Application\Guess\Command\MakeGuessCommand;
 use App\MastermindContext\Domain\Game\Exception\InvalidGameIdException;
 use App\MastermindContext\Domain\Game\GameId;
+use App\MastermindContext\Domain\Guess\GuessId;
 use App\Shared\Domain\Command\CommandBusInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MakeGuessController
@@ -21,8 +23,12 @@ final class MakeGuessController
      */
     public function __invoke(string $id): Response
     {
-        $this->commandBus->dispatch(new MakeGuessCommand(GameId::createFromString($id)));
+        $guessId = GuessId::create();
 
-        return new Response(null, Response::HTTP_CREATED);
+        $this->commandBus->dispatch(new MakeGuessCommand($guessId, GameId::createFromString($id)));
+
+        return new JsonResponse([
+            'id' => $guessId->id()->__toString(),
+        ], Response::HTTP_CREATED);
     }
 }

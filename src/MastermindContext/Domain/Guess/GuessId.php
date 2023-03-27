@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\MastermindContext\Domain\Game;
+namespace App\MastermindContext\Domain\Guess;
 
 use App\MastermindContext\Domain\Game\Exception\InvalidGameIdException;
 use App\Shared\Domain\ValueObject\AbstractUuid;
 use Symfony\Component\Uid\Uuid;
 
-final class GameId extends AbstractUuid
+final class GuessId extends AbstractUuid
 {
     public static function create(): self
     {
