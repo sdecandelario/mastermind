@@ -54,5 +54,9 @@ final class MakeGuessTest extends WebTestCase
         $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess");
 
         self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('id', $jsonResponse);
     }
 }
