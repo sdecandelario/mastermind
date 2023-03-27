@@ -1,5 +1,3 @@
-
-
 enter:
 	#enter into the php container
 	docker-compose exec php bash
