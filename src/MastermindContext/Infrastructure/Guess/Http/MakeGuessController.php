@@ -23,6 +23,6 @@ final class MakeGuessController
     {
         $this->commandBus->dispatch(new MakeGuessCommand(GameId::createFromString($id)));
 
-        return new Response();
+        return new Response(null, Response::HTTP_CREATED);
     }
 }
