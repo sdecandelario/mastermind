@@ -39,4 +39,9 @@ final class Game
     {
         return GameStatus::Started === $this->status;
     }
+
+    public function isInProgress(): bool
+    {
+        return GameStatus::InProgress === $this->status;
+    }
 }
