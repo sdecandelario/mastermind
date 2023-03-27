@@ -56,6 +56,18 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(['[colorCode]' => 'This value should have exactly 4 characters.'], $jsonResponse);
     }
 
+    public function testGuessWithInvalidColorCodeCombinationReturnBadRequest()
+    {
+        $game = GameBuilder::create()->build();
+        $this->gameRepository->save($game);
+
+        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => 'ABCD',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testInvalidGameId()
     {
         $this->client->request('POST', '/api/game/anId/guess', [
