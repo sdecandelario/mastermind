@@ -30,7 +30,7 @@ final class Game
 
     public function addGuess(Guess $guess): void
     {
-        $guess->calculateBlackPegs($this->secretCode);
+        $guess->calculatePegs($this->secretCode);
 
         $this->guesses->add($guess);
 

@@ -13,7 +13,8 @@ final class Guess
         private readonly GuessId $id,
         private readonly Game $game,
         private readonly ColorCode $colorCode,
-        private int $blackPeg = 0
+        private int $blackPeg = 0,
+        private int $whitePeg = 0,
     ) {
     }
 
@@ -37,8 +38,14 @@ final class Guess
         return $this->blackPeg;
     }
 
-    public function calculateBlackPegs(ColorCode $secretCode): void
+    public function whitePeg(): int
     {
-        $this->blackPeg = $this->colorCode->checkBlackPegs($secretCode);
+        return $this->whitePeg;
+    }
+
+    public function calculatePegs(ColorCode $gameSecretColor): void
+    {
+        $this->blackPeg = $this->colorCode->calculateBlackPegs($gameSecretColor);
+        $this->whitePeg = $this->colorCode->calculateWhitePegs($gameSecretColor);
     }
 }

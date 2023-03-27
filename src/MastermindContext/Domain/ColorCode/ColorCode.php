@@ -36,6 +36,9 @@ final class ColorCode
         );
     }
 
+    /**
+     * TODO move inside ColorCode.
+     */
     private static function createRandomColor(): ColorCodeValue
     {
         $colorIndex = random_int(0, 3);
@@ -101,26 +104,38 @@ final class ColorCode
         );
     }
 
-    public function checkBlackPegs(ColorCode $colorCode): int
+    public function calculateBlackPegs(ColorCode $colorCode): int
     {
-        $matchedPegs = 0;
+        $valueAsString = $this->value();
+        $colorCodeAsString = $colorCode->value();
+        $blackPegs = 0;
 
-        if ($this->firstValue === $colorCode->firstValue) {
-            ++$matchedPegs;
+        for ($i = 0; $i < 4; ++$i) {
+            $position = mb_strpos($colorCodeAsString, $valueAsString[$i]);
+
+            if ($position === $i) {
+                ++$blackPegs;
+            }
         }
 
-        if ($this->secondValue === $colorCode->secondValue) {
-            ++$matchedPegs;
+        return $blackPegs;
+    }
+
+    public function calculateWhitePegs(ColorCode $colorCode): int
+    {
+        $valueAsString = $this->value();
+        $colorCodeAsString = $colorCode->value();
+        $whitePegs = 0;
+
+        for ($i = 0; $i < 4; ++$i) {
+            $position = mb_strpos($colorCodeAsString, $valueAsString[$i]);
+
+            if (false !== $position && $position !== $i) {
+                ++$whitePegs;
+                $colorCodeAsString = substr_replace($colorCodeAsString, '', $position, 1);
+            }
         }
 
-        if ($this->thirdValue === $colorCode->thirdValue) {
-            ++$matchedPegs;
-        }
-
-        if ($this->fourthValue === $colorCode->fourthValue) {
-            ++$matchedPegs;
-        }
-
-        return $matchedPegs;
+        return $whitePegs;
     }
 }

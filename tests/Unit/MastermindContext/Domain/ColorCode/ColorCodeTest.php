@@ -34,4 +34,46 @@ class ColorCodeTest extends TestCase
 
         self::assertTrue(4 === mb_strlen($result->value()));
     }
+
+    public function colorCodeWithBlackPegs(): array
+    {
+        return [
+            [ColorCode::createFromString('BGYR'), ColorCode::createFromString('RYGB'), 0],
+            [ColorCode::createFromString('RRRR'), ColorCode::createFromString('RYGB'), 1],
+            [ColorCode::createFromString('RYRR'), ColorCode::createFromString('RYGB'), 2],
+            [ColorCode::createFromString('RYGR'), ColorCode::createFromString('RYGB'), 3],
+            [ColorCode::createFromString('RYGB'), ColorCode::createFromString('RYGB'), 4],
+        ];
+    }
+
+    /**
+     * @dataProvider colorCodeWithBlackPegs
+     */
+    public function testCalculateBlackPegs(ColorCode $colorCode, ColorCode $secretColorCode, int $blackPegs)
+    {
+        $result = $colorCode->calculateBlackPegs($secretColorCode);
+
+        self::assertSame($blackPegs, $result);
+    }
+
+    public function colorCodeWithWhitePegs(): array
+    {
+        return [
+            [ColorCode::createFromString('RYGB'), ColorCode::createFromString('RYGB'), 0],
+            [ColorCode::createFromString('BBBB'), ColorCode::createFromString('RYGB'), 1],
+            [ColorCode::createFromString('GBBB'), ColorCode::createFromString('RYGB'), 2],
+            [ColorCode::createFromString('BRYB'), ColorCode::createFromString('RYGB'), 3],
+            [ColorCode::createFromString('BRYG'), ColorCode::createFromString('RYGB'), 4],
+        ];
+    }
+
+    /**
+     * @dataProvider colorCodeWithWhitePegs
+     */
+    public function testCalculateWhitePegs(ColorCode $colorCode, ColorCode $secretColorCode, int $whitePegs)
+    {
+        $result = $colorCode->calculateWhitePegs($secretColorCode);
+
+        self::assertSame($whitePegs, $result);
+    }
 }
