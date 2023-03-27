@@ -40,6 +40,22 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(['[colorCode]' => 'This field is missing.'], $jsonResponse);
     }
 
+    public function testGuessWithInvalidColorCodeLengthReturnBadRequest()
+    {
+        $game = GameBuilder::create()->build();
+        $this->gameRepository->save($game);
+
+        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => '1',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertSame(['[colorCode]' => 'This value should have exactly 4 characters.'], $jsonResponse);
+    }
+
     public function testInvalidGameId()
     {
         $this->client->request('POST', '/api/game/anId/guess');

@@ -27,7 +27,7 @@ final class MakeGuessController
      */
     public function __invoke(Request $request, string $id): Response
     {
-        $violations = $this->makeGuessRequestValidator->validate(json_decode($request->getContent(), true) ?? []);
+        $violations = $this->makeGuessRequestValidator->validate($request->request->all());
 
         if (count($violations) > 0) {
             return new JsonResponse($violations, Response::HTTP_BAD_REQUEST);
