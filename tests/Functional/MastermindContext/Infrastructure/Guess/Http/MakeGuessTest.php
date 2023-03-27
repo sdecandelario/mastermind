@@ -50,6 +50,20 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(['error' => "Game with id {$gameId->id()->__toString()} not found"], $jsonResponse);
     }
 
+    public function testGuessWithoutValidColorCodeReturnBadRequest()
+    {
+        $game = GameBuilder::create()->build();
+        $this->gameRepository->save($game);
+
+        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess");
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertSame(['error' => "You need to provide a valid color code"], $jsonResponse);
+    }
+
     public function testFirstGuessStartTheGame()
     {
         $game = GameBuilder::create()->build();
