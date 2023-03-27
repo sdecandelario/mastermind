@@ -38,6 +38,8 @@ final class Game
             $this->status = GameStatus::Won;
         } elseif (1 === $this->guesses->count()) {
             $this->status = GameStatus::InProgress;
+        } elseif (10 === $this->guesses->count()) {
+            $this->status = GameStatus::Lost;
         }
     }
 
@@ -69,6 +71,11 @@ final class Game
     public function isWinner(): bool
     {
         return GameStatus::Won === $this->status;
+    }
+
+    public function isLost(): bool
+    {
+        return GameStatus::Lost === $this->status;
     }
 
     public function guesses(): Collection

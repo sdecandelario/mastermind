@@ -9,4 +9,5 @@ enum GameStatus: string
     case Started = 'Started';
     case InProgress = 'InProgress';
     case Won = 'Won';
+    case Lost = 'Lost';
 }

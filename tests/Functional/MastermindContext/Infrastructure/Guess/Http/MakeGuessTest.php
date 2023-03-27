@@ -9,6 +9,7 @@ use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
 use App\MastermindContext\Domain\Guess\Guess;
 use App\Tests\Builder\GameBuilder;
+use App\Tests\Builder\GuessBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -228,5 +229,52 @@ final class MakeGuessTest extends WebTestCase
         self::assertTrue($savedGame->isWinner());
         self::assertCount(1, $savedGame->guesses());
         self::assertSame(4, $guess->blackPeg());
+    }
+
+    public function testAddingLastGuessWithNoMatchesMarkTheGameAsLost()
+    {
+        $colorCode = ColorCode::createFromString('BBBB');
+        $game = GameBuilder::create()
+            ->withColorCode($colorCode)
+            ->build();
+
+        $guess = GuessBuilder::create($game)->withColorCode(ColorCode::createFromString('RRRR'));
+
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+        $game->addGuess($guess->copy()->build());
+
+        $this->gameRepository->save($game);
+
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => 'RRRR',
+        ]);
+
+        self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('id', $jsonResponse);
+
+        $entityManager = $this->container->get(EntityManagerInterface::class);
+
+        $entityManager->clear();
+
+        $savedGame = $this->gameRepository->findById($game->id());
+
+        /**
+         * @var Guess $guess
+         */
+        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+
+        self::assertTrue($savedGame->isLost());
+        self::assertCount(10, $savedGame->guesses());
+        self::assertSame(0, $guess->blackPeg());
     }
 }

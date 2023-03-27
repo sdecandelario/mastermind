@@ -7,6 +7,7 @@ namespace App\Tests\Builder;
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\Game;
 use App\MastermindContext\Domain\Game\GameId;
+use App\MastermindContext\Domain\Guess\Guess;
 
 final class GameBuilder
 {
@@ -14,15 +15,18 @@ final class GameBuilder
 
     private ColorCode $colorCode;
 
-    public function __construct(?GameId $id)
+    private array $guesses;
+
+    private function __construct()
     {
-        $this->id = $id ?? GameId::create();
+        $this->id = GameId::create();
         $this->colorCode = ColorCode::random();
+        $this->guesses = [];
     }
 
-    public static function create(?GameId $id = null): GameBuilder
+    public static function create(): GameBuilder
     {
-        return new self($id);
+        return new self();
     }
 
     public function withId(GameId $id): GameBuilder
@@ -39,11 +43,24 @@ final class GameBuilder
         return $this;
     }
 
-    public function build()
+    public function build(): Game
     {
-        return Game::create(
+        $game = Game::create(
             $this->id,
             $this->colorCode
         );
+
+        foreach ($this->guesses as $guess) {
+            $game->addGuess($guess);
+        }
+
+        return $game;
+    }
+
+    public function withGuess(Guess $guess)
+    {
+        $this->guesses[] = $guess;
+
+        return $this;
     }
 }
