@@ -24,6 +24,6 @@ final class MakeGuessCommandHandler
     {
         $game = $this->gameFinder->findOrFail($command->gameId());
 
-        $this->addGuess->addGuess($game, Guess::create($command->guessId()));
+        $this->addGuess->addGuess($game, Guess::create($command->guessId(), $game));
     }
 }

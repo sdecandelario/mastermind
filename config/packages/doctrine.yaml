@@ -5,6 +5,7 @@ doctrine:
             game_id: App\MastermindContext\Infrastructure\Game\Persistence\Type\GameIdType
             game_status: App\MastermindContext\Infrastructure\Game\Persistence\Type\GameStatusType
             color_code: App\MastermindContext\Infrastructure\ColorCode\Persistence\Type\ColorCodeType
+            guess_id: App\MastermindContext\Infrastructure\Guess\Persistence\Type\GuessIdType
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -20,6 +21,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/MastermindContext/Infrastructure/Game/Persistence/Mapping'
                 is_bundle: false
                 prefix: App\MastermindContext\Domain\Game
+            App\MastermindContext\Domain\Guess\Guess:
+                type: xml
+                dir: '%kernel.project_dir%/src/MastermindContext/Infrastructure/Guess/Persistence/Mapping'
+                is_bundle: false
+                prefix: App\MastermindContext\Domain\Guess
 
 when@test:
     doctrine:

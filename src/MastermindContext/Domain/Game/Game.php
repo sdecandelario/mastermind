@@ -7,10 +7,11 @@ namespace App\MastermindContext\Domain\Game;
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Guess\Guess;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 final class Game
 {
-    private ArrayCollection $guesses;
+    private Collection $guesses;
 
     private function __construct(
         private readonly GameId $id,
@@ -59,7 +60,7 @@ final class Game
         return GameStatus::InProgress === $this->status;
     }
 
-    public function guesses(): ArrayCollection
+    public function guesses(): Collection
     {
         return $this->guesses;
     }
