@@ -48,4 +48,9 @@ final class Guess
         $this->blackPeg = $this->colorCode->calculateBlackPegs($gameSecretColor);
         $this->whitePeg = $this->colorCode->calculateWhitePegs($gameSecretColor);
     }
+
+    public function allBlackPegs(): bool
+    {
+        return 4 === $this->blackPeg;
+    }
 }

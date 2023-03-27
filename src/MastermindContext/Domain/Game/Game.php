@@ -34,7 +34,9 @@ final class Game
 
         $this->guesses->add($guess);
 
-        if (1 === $this->guesses->count()) {
+        if ($guess->allBlackPegs()) {
+            $this->status = GameStatus::Won;
+        } elseif (1 === $this->guesses->count()) {
             $this->status = GameStatus::InProgress;
         }
     }
