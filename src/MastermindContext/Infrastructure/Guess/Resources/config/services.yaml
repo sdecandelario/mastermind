@@ -13,3 +13,6 @@ services:
         tags:
             - { name: messenger.message_handler, bus: command.bus }
 
+    App\MastermindContext\Infrastructure\Guess\Validator\:
+        resource: '../../Validator/'
+
