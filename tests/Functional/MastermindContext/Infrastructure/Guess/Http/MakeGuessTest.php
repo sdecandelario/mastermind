@@ -58,7 +58,9 @@ final class MakeGuessTest extends WebTestCase
 
     public function testInvalidGameId()
     {
-        $this->client->request('POST', '/api/game/anId/guess');
+        $this->client->request('POST', '/api/game/anId/guess', [
+            'colorCode' => '1234',
+        ]);
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
@@ -71,7 +73,9 @@ final class MakeGuessTest extends WebTestCase
     {
         $gameId = GameId::create();
 
-        $this->client->request('POST', "/api/game/$gameId/guess");
+        $this->client->request('POST', "/api/game/$gameId/guess", [
+            'colorCode' => '1234',
+        ]);
 
         self::assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
@@ -85,7 +89,9 @@ final class MakeGuessTest extends WebTestCase
         $game = GameBuilder::create()->build();
         $this->gameRepository->save($game);
 
-        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess");
+        $this->client->request('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => '1234',
+        ]);
 
         self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
 
