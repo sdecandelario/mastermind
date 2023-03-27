@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\MastermindContext\Infrastructure\Guess\Http;
 
+use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
+use App\MastermindContext\Domain\Guess\Guess;
 use App\Tests\Builder\GameBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -46,7 +48,7 @@ final class MakeGuessTest extends WebTestCase
         $this->gameRepository->save($game);
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
-           'colorCode' => '1',
+            'colorCode' => '1',
         ]);
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
@@ -104,9 +106,10 @@ final class MakeGuessTest extends WebTestCase
     {
         $game = GameBuilder::create()->build();
         $this->gameRepository->save($game);
+        $colorCode = ColorCode::random();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
-            'colorCode' => '1234',
+            'colorCode' => $colorCode->value(),
         ]);
 
         self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
@@ -121,7 +124,13 @@ final class MakeGuessTest extends WebTestCase
 
         $savedGame = $this->gameRepository->findById($game->id());
 
+        /**
+         * @var Guess $guess
+         */
+        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+
         self::assertTrue($savedGame->isInProgress());
         self::assertCount(1, $savedGame->guesses());
+        self::assertSame($colorCode->value(), $guess->colorCode()->value());
     }
 }

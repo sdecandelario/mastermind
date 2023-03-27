@@ -76,8 +76,15 @@ final class ColorCode
      */
     private static function validateString(string $colorCode): void
     {
+        $validValues = [
+            ColorCodeValue::Green->value,
+            ColorCodeValue::Yellow->value,
+            ColorCodeValue::Blue->value,
+            ColorCodeValue::Red->value,
+        ];
+
         for ($i = 0; $i < mb_strlen($colorCode); ++$i) {
-            if (!in_array($colorCode[0], ColorCodeValue::cases())) {
+            if (!in_array($colorCode[$i], $validValues)) {
                 throw InvalidColorCodeCombinationException::create();
             }
         }

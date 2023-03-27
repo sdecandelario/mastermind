@@ -25,4 +25,9 @@ final class Guess
     {
         return $this->id;
     }
+
+    public function colorCode(): ColorCode
+    {
+        return $this->colorCode;
+    }
 }
