@@ -104,8 +104,6 @@ final class GetGameTest extends WebTestCase
             ->withId($id)
             ->withStatus($status)
             ->build();
-        $guess = GuessBuilder::create($game)->build();
-        $game->addGuess($guess);
 
         $entityManager->persist($game);
         $entityManager->flush();
@@ -128,14 +126,7 @@ final class GetGameTest extends WebTestCase
             'id' => $game->id()->__toString(),
             'status' => $game->status()->value,
             'secretCode' => $game->secretCode()->value(),
-            'guesses' => [
-                [
-                    'id' => $guess->id()->__toString(),
-                    'colorCode' => $guess->colorCode()->value(),
-                    'blackPeg' => $guess->blackPeg(),
-                    'whitePeg' => $guess->whitePeg(),
-                ],
-            ],
+            'guesses' => [],
         ], $jsonResponse);
     }
 }

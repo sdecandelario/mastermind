@@ -21,10 +21,17 @@ final class GetGameQueryResult implements QueryResultInterface
 
     public function toArray(): array
     {
-        return [
+        $response = [
             'id' => (string) $this->game->id(),
             'status' => $this->game->status()->value,
+            'secretCode' => $this->game->secretCode()->value(),
             'guesses' => GuessCollectionQueryResult::create(...$this->game->guesses())->toArray(),
         ];
+
+        if (false === $this->game->isWinner() && false === $this->game->isLost()) {
+            unset($response['secretCode']);
+        }
+
+        return $response;
     }
 }
