@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MastermindContext\Application\Game\Query;
 
+use App\MastermindContext\Application\Guess\Query\GuessCollectionQueryResult;
 use App\MastermindContext\Domain\Game\Game;
 use App\Shared\Domain\Query\QueryResultInterface;
 
@@ -23,6 +24,7 @@ final class GetGameQueryResult implements QueryResultInterface
         return [
             'id' => (string) $this->game->id(),
             'status' => $this->game->status()->value,
+            'guesses' => GuessCollectionQueryResult::create(...$this->game->guesses())->toArray(),
         ];
     }
 }

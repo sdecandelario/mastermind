@@ -75,8 +75,8 @@ final class GetGameTest extends WebTestCase
                 [
                     'id' => $guess->id()->__toString(),
                     'colorCode' => $guess->colorCode()->value(),
-                    'whitePeg' => $guess->whitePeg(),
                     'blackPeg' => $guess->blackPeg(),
+                    'whitePeg' => $guess->whitePeg(),
                 ],
             ],
         ], $jsonResponse);
