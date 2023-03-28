@@ -16,16 +16,6 @@ class AbstractUuid
         $this->id = $id;
     }
 
-    /**
-     * @throws InvalidGameIdException
-     */
-    protected static function assertIdIsValid(string $id): void
-    {
-        if (false === Uuid::isValid($id)) {
-            throw InvalidGameIdException::withId($id);
-        }
-    }
-
     public function id(): Uuid
     {
         return $this->id;
@@ -39,5 +29,10 @@ class AbstractUuid
     public function __toString(): string
     {
         return $this->value();
+    }
+
+    protected static function isValid(string $value): bool
+    {
+        return Uuid::isValid($value);
     }
 }

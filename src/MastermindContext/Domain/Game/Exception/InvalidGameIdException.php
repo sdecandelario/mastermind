@@ -10,6 +10,6 @@ final class InvalidGameIdException extends DomainException
 {
     public static function withId(string $id): InvalidGameIdException
     {
-        return new self("The id '$id' is not a valid uuid");
+        return new self("The id '$id' is not a game id");
     }
 }

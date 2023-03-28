@@ -24,4 +24,14 @@ final class GameId extends AbstractUuid
 
         return new self(Uuid::fromString($id));
     }
+
+    /**
+     * @throws InvalidGameIdException
+     */
+    protected static function assertIdIsValid(string $id): void
+    {
+        if (!self::isValid($id)) {
+            throw InvalidGameIdException::withId($id);
+        }
+    }
 }
