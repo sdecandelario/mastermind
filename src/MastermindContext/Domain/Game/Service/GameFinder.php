@@ -8,13 +8,10 @@ use App\MastermindContext\Domain\Game\Exception\GameNotFoundException;
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
 
-final class GameFinder
+class GameFinder
 {
-    private GameRepositoryInterface $gameRepository;
-
-    public function __construct(GameRepositoryInterface $gameRepository)
+    public function __construct(private readonly GameRepositoryInterface $gameRepository)
     {
-        $this->gameRepository = $gameRepository;
     }
 
     /**

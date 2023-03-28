@@ -31,8 +31,13 @@ class AbstractUuid
         return $this->id;
     }
 
-    public function __toString(): string
+    public function value()
     {
         return $this->id->toRfc4122();
+    }
+
+    public function __toString(): string
+    {
+        return $this->value();
     }
 }
