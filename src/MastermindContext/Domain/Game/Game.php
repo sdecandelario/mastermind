@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MastermindContext\Domain\Game;
 
 use App\MastermindContext\Domain\ColorCode\ColorCode;
+use App\MastermindContext\Domain\Game\Exception\FinishedGameException;
 use App\MastermindContext\Domain\Guess\Guess;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,6 +78,16 @@ final class Game
     public function isLost(): bool
     {
         return GameStatus::Lost === $this->status;
+    }
+
+    /**
+     * @throws FinishedGameException
+     */
+    public function assertIsFinished(): void
+    {
+        if ($this->isWinner() || $this->isLost()) {
+            throw FinishedGameException::createWithGameId($this->id);
+        }
     }
 
     public function guesses(): Collection

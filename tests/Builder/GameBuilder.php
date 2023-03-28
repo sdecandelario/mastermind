@@ -8,7 +8,6 @@ use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\Game;
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameStatus;
-use App\MastermindContext\Domain\Guess\Guess;
 
 final class GameBuilder
 {
@@ -16,14 +15,13 @@ final class GameBuilder
 
     private ColorCode $colorCode;
 
-    private array $guesses;
     private GameStatus $status;
 
     private function __construct()
     {
         $this->id = GameId::create();
         $this->colorCode = ColorCode::random();
-        $this->guesses = [];
+        $this->status = GameStatus::Started;
     }
 
     public static function create(): GameBuilder
@@ -54,16 +52,10 @@ final class GameBuilder
 
     public function build(): Game
     {
-        $game = Game::create(
+        return Game::create(
             $this->id,
             $this->colorCode,
             $this->status
         );
-
-        foreach ($this->guesses as $guess) {
-            $game->addGuess($guess);
-        }
-
-        return $game;
     }
 }

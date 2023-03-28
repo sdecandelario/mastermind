@@ -45,6 +45,9 @@ final class GetGameTest extends WebTestCase
         $client = self::createClient();
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
         $id = GameId::create();
+        /**
+         * TODO remove fixture bundle
+         */
         (new GameWithIdFixture($id))->load($entityManager);
 
         $client->request('GET', "/api/game/$id");

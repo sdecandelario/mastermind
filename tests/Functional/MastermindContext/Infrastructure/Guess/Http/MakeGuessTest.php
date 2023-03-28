@@ -303,5 +303,9 @@ final class MakeGuessTest extends WebTestCase
         ]);
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
+
+        self::assertSame(['error' => "The game {$game->id()->__toString()} is finished, not allow more guesses"], $jsonResponse);
     }
 }
