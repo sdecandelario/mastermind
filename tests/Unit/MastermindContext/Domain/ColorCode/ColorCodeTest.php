@@ -4,11 +4,13 @@ namespace App\Tests\Unit\MastermindContext\Domain\ColorCode;
 
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\ColorCode\ColorCodeValue;
+use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeCombinationException;
+use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeLengthException;
 use PHPUnit\Framework\TestCase;
 
 class ColorCodeTest extends TestCase
 {
-    public function testCreateByValuesSuccess()
+    public function testCreateSuccess()
     {
         $expectedColorCode = sprintf(
             '%s%s%s%s',
@@ -33,6 +35,42 @@ class ColorCodeTest extends TestCase
         $result = ColorCode::random();
 
         self::assertTrue(4 === mb_strlen($result->value()));
+    }
+
+    public function invalidStringLength(): array
+    {
+        return [
+            ['1'],
+            ['11'],
+            ['111'],
+            ['11111'],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidStringLength
+     */
+    public function testCreateFromStringWithInvalidLength(string $colorCode)
+    {
+        $this->expectException(InvalidColorCodeLengthException::class);
+        $this->expectExceptionMessage('Invalid length for color code, must be exactly 4 characters');
+
+        ColorCode::createFromString($colorCode);
+    }
+
+    public function testCreateFromStringWithInvalidColorCode()
+    {
+        $this->expectException(InvalidColorCodeCombinationException::class);
+        $this->expectExceptionMessage('The combination is wrong, the only values accepted are (R, Y, G and B)');
+
+        ColorCode::createFromString('1234');
+    }
+
+    public function testCreateFromStringSuccess()
+    {
+        $colorCode = ColorCode::createFromString('RYGB');
+
+        self::assertSame('RYGB', $colorCode->value());
     }
 
     public function colorCodeWithBlackPegs(): array
@@ -75,5 +113,17 @@ class ColorCodeTest extends TestCase
         $result = $colorCode->calculateWhitePegs($secretColorCode);
 
         self::assertSame($whitePegs, $result);
+    }
+
+    public function testGetAsString()
+    {
+        $colorCode = ColorCode::create(
+            ColorCodeValue::Red,
+            ColorCodeValue::Yellow,
+            ColorCodeValue::Green,
+            ColorCodeValue::Blue,
+        );
+
+        self::assertSame('RYGB', $colorCode->value());
     }
 }

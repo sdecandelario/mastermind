@@ -29,21 +29,11 @@ final class ColorCode
     public static function random(): ColorCode
     {
         return new self(
-            self::createRandomColor(),
-            self::createRandomColor(),
-            self::createRandomColor(),
-            self::createRandomColor(),
+            ColorCodeValue::random(),
+            ColorCodeValue::random(),
+            ColorCodeValue::random(),
+            ColorCodeValue::random(),
         );
-    }
-
-    /**
-     * TODO move inside ColorCode.
-     */
-    private static function createRandomColor(): ColorCodeValue
-    {
-        $colorIndex = random_int(0, 3);
-
-        return ColorCodeValue::cases()[$colorIndex];
     }
 
     /**
@@ -93,17 +83,6 @@ final class ColorCode
         }
     }
 
-    public function value(): string
-    {
-        return sprintf(
-            '%s%s%s%s',
-            $this->firstValue->value,
-            $this->secondValue->value,
-            $this->thirdValue->value,
-            $this->fourthValue->value
-        );
-    }
-
     public function calculateBlackPegs(ColorCode $colorCode): int
     {
         $valueAsString = $this->value();
@@ -137,5 +116,16 @@ final class ColorCode
         }
 
         return $whitePegs;
+    }
+
+    public function value(): string
+    {
+        return sprintf(
+            '%s%s%s%s',
+            $this->firstValue->value,
+            $this->secondValue->value,
+            $this->thirdValue->value,
+            $this->fourthValue->value
+        );
     }
 }
