@@ -11,6 +11,6 @@ final class FinishedGameException extends DomainException
 {
     public static function createWithGameId(GameId $gameId): FinishedGameException
     {
-        return new self("The game {$gameId->id()->__toString()} is finished, not allow more guesses");
+        return new self("The game {$gameId->value()} is finished, not allow more guesses");
     }
 }
