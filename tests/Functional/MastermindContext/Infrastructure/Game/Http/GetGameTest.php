@@ -6,7 +6,8 @@ namespace App\Tests\Functional\MastermindContext\Infrastructure\Game\Http;
 
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
-use App\Tests\Fixture\GameWithIdFixture;
+use App\Tests\Builder\GameBuilder;
+use App\Tests\Builder\GuessBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,11 +45,14 @@ final class GetGameTest extends WebTestCase
     {
         $client = self::createClient();
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+
         $id = GameId::create();
-        /**
-         * TODO remove fixture bundle
-         */
-        (new GameWithIdFixture($id))->load($entityManager);
+        $game = GameBuilder::create()->withId($id)->build();
+        $guess = GuessBuilder::create($game)->build();
+        $game->addGuess($guess);
+
+        $entityManager->persist($game);
+        $entityManager->flush();
 
         $client->request('GET', "/api/game/$id");
 
@@ -67,6 +71,14 @@ final class GetGameTest extends WebTestCase
         self::assertSame([
             'id' => $game->id()->__toString(),
             'status' => $game->status()->value,
+            'guesses' => [
+                [
+                    'id' => $guess->id()->__toString(),
+                    'colorCode' => $guess->colorCode()->value(),
+                    'whitePeg' => $guess->whitePeg(),
+                    'blackPeg' => $guess->blackPeg(),
+                ],
+            ],
         ], $jsonResponse);
     }
 }
