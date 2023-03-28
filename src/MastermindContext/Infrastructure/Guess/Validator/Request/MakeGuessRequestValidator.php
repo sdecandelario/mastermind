@@ -7,7 +7,7 @@ namespace App\MastermindContext\Infrastructure\Guess\Validator\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class MakeGuessRequestValidator
+class MakeGuessRequestValidator
 {
     public function __construct(private readonly ValidatorInterface $validator)
     {

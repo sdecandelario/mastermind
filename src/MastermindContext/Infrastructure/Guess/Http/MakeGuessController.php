@@ -46,7 +46,7 @@ final class MakeGuessController
         );
 
         return new JsonResponse([
-            'id' => $guessId->id()->__toString(),
+            'id' => $guessId->value(),
         ], Response::HTTP_CREATED);
     }
 }
