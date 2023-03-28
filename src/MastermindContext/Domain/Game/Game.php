@@ -16,16 +16,17 @@ final class Game
     private function __construct(
         private readonly GameId $id,
         private GameStatus $status,
-        private ColorCode $secretCode,
+        private readonly ColorCode $secretCode,
     ) {
         $this->guesses = new ArrayCollection();
     }
 
     public static function create(
         GameId $gameId,
-        ?ColorCode $colorCode = null
+        ?ColorCode $colorCode = null,
+        ?GameStatus $status = null
     ): Game {
-        return new self($gameId, GameStatus::Started, $colorCode ?? ColorCode::random());
+        return new self($gameId, $status ?? GameStatus::Started, $colorCode ?? ColorCode::random());
     }
 
     public function addGuess(Guess $guess): void

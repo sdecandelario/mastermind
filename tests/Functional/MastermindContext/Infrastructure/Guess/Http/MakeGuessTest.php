@@ -7,6 +7,7 @@ namespace App\Tests\Functional\MastermindContext\Infrastructure\Guess\Http;
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\GameId;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
+use App\MastermindContext\Domain\Game\GameStatus;
 use App\MastermindContext\Domain\Guess\Guess;
 use App\Tests\Builder\GameBuilder;
 use App\Tests\Builder\GuessBuilder;
@@ -276,5 +277,31 @@ final class MakeGuessTest extends WebTestCase
         self::assertTrue($savedGame->isLost());
         self::assertCount(10, $savedGame->guesses());
         self::assertSame(0, $guess->blackPeg());
+    }
+
+    public function finishedGameStatusProvider(): array
+    {
+        return [
+            [GameStatus::Won],
+            [GameStatus::Lost],
+        ];
+    }
+
+    /**
+     * @dataProvider finishedGameStatusProvider
+     */
+    public function testAddingLastGuessOnAFinishedGameReturnBadRequestError(GameStatus $status)
+    {
+        $game = GameBuilder::create()
+            ->withStatus($status)
+            ->build();
+
+        $this->gameRepository->save($game);
+
+        $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
+            'colorCode' => 'RRRR',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 }

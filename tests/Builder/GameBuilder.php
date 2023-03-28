@@ -7,6 +7,7 @@ namespace App\Tests\Builder;
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Game\Game;
 use App\MastermindContext\Domain\Game\GameId;
+use App\MastermindContext\Domain\Game\GameStatus;
 use App\MastermindContext\Domain\Guess\Guess;
 
 final class GameBuilder
@@ -16,6 +17,7 @@ final class GameBuilder
     private ColorCode $colorCode;
 
     private array $guesses;
+    private GameStatus $status;
 
     private function __construct()
     {
@@ -43,11 +45,19 @@ final class GameBuilder
         return $this;
     }
 
+    public function withStatus(GameStatus $status): GameBuilder
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function build(): Game
     {
         $game = Game::create(
             $this->id,
-            $this->colorCode
+            $this->colorCode,
+            $this->status
         );
 
         foreach ($this->guesses as $guess) {
@@ -55,12 +65,5 @@ final class GameBuilder
         }
 
         return $game;
-    }
-
-    public function withGuess(Guess $guess)
-    {
-        $this->guesses[] = $guess;
-
-        return $this;
     }
 }
