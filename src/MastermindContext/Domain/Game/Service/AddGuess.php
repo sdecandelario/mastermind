@@ -9,7 +9,7 @@ use App\MastermindContext\Domain\Game\Game;
 use App\MastermindContext\Domain\Game\GameRepositoryInterface;
 use App\MastermindContext\Domain\Guess\Guess;
 
-final class AddGuess
+class AddGuess
 {
     public function __construct(private readonly GameRepositoryInterface $gameRepository)
     {
