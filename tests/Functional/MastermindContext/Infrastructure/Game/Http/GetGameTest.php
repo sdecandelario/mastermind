@@ -71,10 +71,12 @@ final class GetGameTest extends WebTestCase
 
         self::assertSame([
             'id' => $game->id()->__toString(),
+            'created' => $game->created()->format('Y-m-d H:i:s'),
             'status' => $game->status()->value,
             'guesses' => [
                 [
                     'id' => $guess->id()->__toString(),
+                    'created' => $guess->created()->format('Y-m-d H:i:s'),
                     'colorCode' => $guess->colorCode()->value(),
                     'blackPeg' => $guess->blackPeg(),
                     'whitePeg' => $guess->whitePeg(),
@@ -123,7 +125,8 @@ final class GetGameTest extends WebTestCase
         $game = $gameRepository->findById($id);
 
         self::assertSame([
-            'id' => $game->id()->__toString(),
+            'id' => $game->id()->value(),
+            'created' => $game->created()->format('Y-m-d H:i:s'),
             'status' => $game->status()->value,
             'secretCode' => $game->secretCode()->value(),
             'guesses' => [],

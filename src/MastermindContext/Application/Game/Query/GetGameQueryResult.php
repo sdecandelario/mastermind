@@ -23,6 +23,7 @@ final class GetGameQueryResult implements QueryResultInterface
     {
         $response = [
             'id' => (string) $this->game->id(),
+            'created' => $this->game->created()->format('Y-m-d H:i:s'),
             'status' => $this->game->status()->value,
             'secretCode' => $this->game->secretCode()->value(),
             'guesses' => GuessCollectionQueryResult::create(...$this->game->guesses())->toArray(),

@@ -9,6 +9,8 @@ use App\MastermindContext\Domain\Game\Game;
 
 final class Guess
 {
+    private readonly \DateTimeImmutable $created;
+
     private function __construct(
         private readonly GuessId $id,
         private readonly Game $game,
@@ -16,6 +18,7 @@ final class Guess
         private int $blackPeg = 0,
         private int $whitePeg = 0,
     ) {
+        $this->created = new \DateTimeImmutable();
     }
 
     public static function create(GuessId $guessId, Game $game, ColorCode $colorCode): Guess
@@ -41,6 +44,11 @@ final class Guess
     public function whitePeg(): int
     {
         return $this->whitePeg;
+    }
+
+    public function created(): \DateTimeImmutable
+    {
+        return $this->created;
     }
 
     public function calculatePegs(ColorCode $gameSecretColor): void

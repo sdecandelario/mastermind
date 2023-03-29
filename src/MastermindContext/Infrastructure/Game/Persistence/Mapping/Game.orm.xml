@@ -9,10 +9,14 @@
 
         <field name="status" column="status" type="game_status" length="50" nullable="false"/>
         <field name="secretCode" column="secret_code" type="color_code" length="4" nullable="false"/>
+        <field name="created" column="created" type="datetime_immutable" nullable="false"/>
         <one-to-many field="guesses" target-entity="App\MastermindContext\Domain\Guess\Guess" mapped-by="game">
             <cascade>
                 <cascade-persist/>
             </cascade>
+            <order-by>
+                <order-by-field name="created" direction="DESC" />
+            </order-by>
         </one-to-many>
     </entity>
 

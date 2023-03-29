@@ -4,37 +4,29 @@ declare(strict_types=1);
 
 namespace App\MastermindContext\Application\Guess\Query;
 
-use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\Guess\Guess;
-use App\MastermindContext\Domain\Guess\GuessId;
 
 final class GuessQueryResult
 {
-    public function __construct(
-        private readonly GuessId $id,
-        private readonly ColorCode $colorCode,
-        private readonly int $blackPeg,
-        private readonly int $whitePeg,
-    ) {
+    public function __construct(private readonly Guess $guess)
+    {
     }
 
     public static function create(Guess $guess): GuessQueryResult
     {
         return new self(
-            $guess->id(),
-            $guess->colorCode(),
-            $guess->blackPeg(),
-            $guess->whitePeg()
+            $guess
         );
     }
 
     public function toArray(): array
     {
         return [
-            'id' => (string) $this->id,
-            'colorCode' => $this->colorCode->value(),
-            'blackPeg' => $this->blackPeg,
-            'whitePeg' => $this->whitePeg,
+            'id' => (string) $this->guess->id(),
+            'created' => $this->guess->created()->format('Y-m-d H:i:s'),
+            'colorCode' => $this->guess->colorCode()->value(),
+            'blackPeg' => $this->guess->blackPeg(),
+            'whitePeg' => $this->guess->whitePeg(),
         ];
     }
 }

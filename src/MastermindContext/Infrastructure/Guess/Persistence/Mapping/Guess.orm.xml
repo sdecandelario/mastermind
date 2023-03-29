@@ -17,6 +17,7 @@
                 <option name="default">0</option>
             </options>
         </field>
+        <field name="created" column="created" type="datetime_immutable" nullable="false"/>
         <many-to-one field="game" target-entity="App\MastermindContext\Domain\Game\Game" inversed-by="guesses"/>
     </entity>
 

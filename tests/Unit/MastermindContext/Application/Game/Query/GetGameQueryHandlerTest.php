@@ -42,6 +42,7 @@ class GetGameQueryHandlerTest extends TestCase
 
         self::assertSame([
             'id' => $gameId->value(),
+            'created' => $game->created()->format('Y-m-d H:i:s'),
             'status' => $game->status()->value,
             'guesses' => [],
         ], $result->toArray());
@@ -69,10 +70,12 @@ class GetGameQueryHandlerTest extends TestCase
 
         self::assertSame([
             'id' => $gameId->value(),
+            'created' => $game->created()->format('Y-m-d H:i:s'),
             'status' => GameStatus::InProgress->value,
             'guesses' => [
                 [
                     'id' => $guess->id()->value(),
+                    'created' => $guess->created()->format('Y-m-d H:i:s'),
                     'colorCode' => 'BBBB',
                     'blackPeg' => 0,
                     'whitePeg' => 0,
@@ -110,6 +113,7 @@ class GetGameQueryHandlerTest extends TestCase
 
         self::assertSame([
             'id' => $gameId->value(),
+            'created' => $game->created()->format('Y-m-d H:i:s'),
             'status' => $status->value,
             'secretCode' => $game->secretCode()->value(),
             'guesses' => [],

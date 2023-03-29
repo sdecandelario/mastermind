@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Collection;
 final class Game
 {
     private Collection $guesses;
+    private readonly \DateTimeImmutable $created;
 
     private function __construct(
         private readonly GameId $id,
@@ -20,6 +21,7 @@ final class Game
         private readonly ColorCode $secretCode,
     ) {
         $this->guesses = new ArrayCollection();
+        $this->created = new \DateTimeImmutable();
     }
 
     public static function create(
@@ -93,5 +95,10 @@ final class Game
     public function guesses(): Collection
     {
         return $this->guesses;
+    }
+
+    public function created(): \DateTimeImmutable
+    {
+        return $this->created;
     }
 }
