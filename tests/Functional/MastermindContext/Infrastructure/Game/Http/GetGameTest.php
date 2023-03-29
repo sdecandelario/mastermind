@@ -25,7 +25,7 @@ final class GetGameTest extends WebTestCase
 
         $jsonResponse = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertSame(['error' => "The id 'anId' is not a valid uuid"], $jsonResponse);
+        self::assertSame(['error' => "The id 'anId' is not a valid game id"], $jsonResponse);
     }
 
     public function testGameNotFound()

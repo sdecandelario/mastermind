@@ -10,6 +10,6 @@ final class InvalidGuessIdException extends DomainException
 {
     public static function withId(string $id): InvalidGuessIdException
     {
-        return new self("The id '$id' is not a guess id");
+        return new self("The id '$id' is not a valid guess id");
     }
 }

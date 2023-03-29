@@ -66,7 +66,7 @@ class MakeGuessControllerTest extends TestCase
             ->willReturn([]);
 
         $this->expectException(InvalidGameIdException::class);
-        $this->expectExceptionMessage("The id 'gameId' is not a game id");
+        $this->expectExceptionMessage("The id 'gameId' is not a valid game id");
 
         $this->sut->__invoke($this->request, 'gameId');
     }

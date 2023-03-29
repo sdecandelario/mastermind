@@ -11,7 +11,7 @@ class GuessIdTest extends TestCase
     public function testCreateFromStringWithInvalidFormadThrowException(): void
     {
         $this->expectException(InvalidGuessIdException::class);
-        $this->expectExceptionMessage('The id \'invalid\' is not a guess id');
+        $this->expectExceptionMessage('The id \'invalid\' is not a valid guess id');
 
         GuessId::createFromString('invalid');
     }

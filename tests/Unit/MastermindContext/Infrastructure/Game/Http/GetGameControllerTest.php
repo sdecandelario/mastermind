@@ -29,7 +29,7 @@ class GetGameControllerTest extends TestCase
     public function testInvalidGameIdThrowAnException()
     {
         $this->expectException(InvalidGameIdException::class);
-        $this->expectExceptionMessage("The id 'invalidGameId' is not a game id");
+        $this->expectExceptionMessage("The id 'invalidGameId' is not a valid game id");
 
         $this->sut->__invoke('invalidGameId');
     }
