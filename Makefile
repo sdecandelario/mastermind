@@ -1,6 +1,8 @@
+target=dev
+
 enter:
 	#enter into the php container
-	docker-compose exec php bash
+	target=${target} docker-compose exec php bash
 
 composer-install:
 	#install composer dependencies
@@ -10,9 +12,13 @@ up:
 	#run the project
 	docker-compose up -d
 
-build:
+build-dev:
 	#build php container
-	docker-compose build php
+	target=dev docker-compose build php
+
+build-prod:
+	#build php container
+	target=prod docker-compose build php
 
 functional-tests:
 	#execute functional tests
