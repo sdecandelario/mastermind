@@ -11,6 +11,7 @@ use App\MastermindContext\Domain\Game\GameStatus;
 use App\MastermindContext\Domain\Guess\Guess;
 use App\Tests\Builder\GameBuilder;
 use App\Tests\Builder\GuessBuilder;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -19,21 +20,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class MakeGuessTest extends WebTestCase
 {
-    private KernelBrowser $client;
-    private ContainerInterface $container;
-    private GameRepositoryInterface $gameRepository;
+    private readonly KernelBrowser $client;
+    private readonly GameRepositoryInterface $gameRepository;
+    private readonly EntityManager $entityManager;
 
     protected function setUp(): void
     {
         $this->client = self::createClient();
-        $this->container = self::getContainer();
+        $this->entityManager = self::getContainer()->get(EntityManagerInterface::class);
         $this->gameRepository = self::getContainer()->get(GameRepositoryInterface::class);
     }
 
     public function testGuessWithoutValidColorCodeReturnBadRequest()
     {
         $game = GameBuilder::create()->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess");
 
@@ -47,7 +49,8 @@ final class MakeGuessTest extends WebTestCase
     public function testGuessWithInvalidColorCodeLengthReturnBadRequest()
     {
         $game = GameBuilder::create()->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => '1',
@@ -91,7 +94,8 @@ final class MakeGuessTest extends WebTestCase
     public function testGuessWithInvalidColorCodeCombinationReturnBadRequest()
     {
         $game = GameBuilder::create()->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'ABCD',
@@ -107,7 +111,8 @@ final class MakeGuessTest extends WebTestCase
     public function testFirstGuessStartTheGame()
     {
         $game = GameBuilder::create()->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
         $colorCode = ColorCode::random();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
@@ -120,16 +125,14 @@ final class MakeGuessTest extends WebTestCase
 
         self::assertArrayHasKey('id', $jsonResponse);
 
-        $entityManager = $this->container->get(EntityManagerInterface::class);
-
-        $entityManager->clear();
+        $this->entityManager->clear();
 
         $savedGame = $this->gameRepository->findById($game->id());
 
         /**
          * @var Guess $guess
          */
-        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+        $guess = $this->entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
 
         self::assertTrue($savedGame->isInProgress());
         self::assertCount(1, $savedGame->guesses());
@@ -140,7 +143,8 @@ final class MakeGuessTest extends WebTestCase
     {
         $colorCode = ColorCode::createFromString('RYGB');
         $game = GameBuilder::create()->withColorCode($colorCode)->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'RRRR',
@@ -152,16 +156,14 @@ final class MakeGuessTest extends WebTestCase
 
         self::assertArrayHasKey('id', $jsonResponse);
 
-        $entityManager = $this->container->get(EntityManagerInterface::class);
-
-        $entityManager->clear();
+        $this->entityManager->clear();
 
         $savedGame = $this->gameRepository->findById($game->id());
 
         /**
          * @var Guess $guess
          */
-        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+        $guess = $this->entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
 
         self::assertTrue($savedGame->isInProgress());
         self::assertCount(1, $savedGame->guesses());
@@ -172,7 +174,8 @@ final class MakeGuessTest extends WebTestCase
     {
         $colorCode = ColorCode::createFromString('RYGB');
         $game = GameBuilder::create()->withColorCode($colorCode)->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'RRRR',
@@ -184,16 +187,14 @@ final class MakeGuessTest extends WebTestCase
 
         self::assertArrayHasKey('id', $jsonResponse);
 
-        $entityManager = $this->container->get(EntityManagerInterface::class);
-
-        $entityManager->clear();
+        $this->entityManager->clear();
 
         $savedGame = $this->gameRepository->findById($game->id());
 
         /**
          * @var Guess $guess
          */
-        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+        $guess = $this->entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
 
         self::assertTrue($savedGame->isInProgress());
         self::assertCount(1, $savedGame->guesses());
@@ -204,7 +205,8 @@ final class MakeGuessTest extends WebTestCase
     {
         $colorCode = ColorCode::createFromString('RYGB');
         $game = GameBuilder::create()->withColorCode($colorCode)->build();
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'RYGB',
@@ -216,16 +218,14 @@ final class MakeGuessTest extends WebTestCase
 
         self::assertArrayHasKey('id', $jsonResponse);
 
-        $entityManager = $this->container->get(EntityManagerInterface::class);
-
-        $entityManager->clear();
+        $this->entityManager->clear();
 
         $savedGame = $this->gameRepository->findById($game->id());
 
         /**
          * @var Guess $guess
          */
-        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+        $guess = $this->entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
 
         self::assertTrue($savedGame->isWinner());
         self::assertCount(1, $savedGame->guesses());
@@ -239,19 +239,23 @@ final class MakeGuessTest extends WebTestCase
             ->withColorCode($colorCode)
             ->build();
 
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
+        $this->entityManager->refresh($game);
+
         $guess = GuessBuilder::create($game)->withColorCode(ColorCode::createFromString('RRRR'));
 
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
-        $game->addGuess($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
+        $this->entityManager->persist($guess->copy()->build());
 
-        $this->gameRepository->save($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'RRRR',
@@ -263,16 +267,14 @@ final class MakeGuessTest extends WebTestCase
 
         self::assertArrayHasKey('id', $jsonResponse);
 
-        $entityManager = $this->container->get(EntityManagerInterface::class);
-
-        $entityManager->clear();
+        $this->entityManager->clear();
 
         $savedGame = $this->gameRepository->findById($game->id());
 
         /**
          * @var Guess $guess
          */
-        $guess = $entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
+        $guess = $this->entityManager->getRepository(Guess::class)->find($jsonResponse['id']);
 
         self::assertTrue($savedGame->isLost());
         self::assertCount(10, $savedGame->guesses());
@@ -296,7 +298,8 @@ final class MakeGuessTest extends WebTestCase
             ->withStatus($status)
             ->build();
 
-        $this->gameRepository->save($game);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
             'colorCode' => 'RRRR',

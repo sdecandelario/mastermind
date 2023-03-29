@@ -13,12 +13,12 @@ use Doctrine\Common\Collections\Collection;
 final class Game
 {
     private Collection $guesses;
-    private readonly \DateTimeImmutable $created;
+    private \DateTimeImmutable $created;
 
     private function __construct(
-        private readonly GameId $id,
+        private GameId $id,
         private GameStatus $status,
-        private readonly ColorCode $secretCode,
+        private ColorCode $secretCode,
     ) {
         $this->guesses = new ArrayCollection();
         $this->created = new \DateTimeImmutable();

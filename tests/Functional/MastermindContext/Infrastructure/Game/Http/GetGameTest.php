@@ -49,10 +49,12 @@ final class GetGameTest extends WebTestCase
 
         $id = GameId::create();
         $game = GameBuilder::create()->withId($id)->build();
-        $guess = GuessBuilder::create($game)->build();
-        $game->addGuess($guess);
-
         $entityManager->persist($game);
+        $entityManager->flush();
+        $entityManager->refresh($game);
+
+        $guess = GuessBuilder::create($game)->build();
+        $entityManager->persist($guess);
         $entityManager->flush();
 
         $client->request('GET', "/api/game/$id");
