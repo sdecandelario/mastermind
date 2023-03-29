@@ -33,3 +33,12 @@ execute-migrations-test:
 execute-migrations-dev:
 	#execute all the pending migrations
 	docker-compose exec php bin/console doctrine:migrations:migrate -n --env=dev
+
+coverage-unit:
+	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Unit --coverage-html coverage/unit
+
+coverage-functional:
+	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Functional --coverage-html coverage/functional
+
+coverage-all:
+	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --coverage-html coverage/all
