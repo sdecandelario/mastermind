@@ -102,6 +102,7 @@ class ColorCodeTest extends TestCase
             [ColorCode::createFromString('GBBB'), ColorCode::createFromString('RYGB'), 2],
             [ColorCode::createFromString('BRYB'), ColorCode::createFromString('RYGB'), 3],
             [ColorCode::createFromString('BRYG'), ColorCode::createFromString('RYGB'), 4],
+            [ColorCode::createFromString('BRBR'), ColorCode::createFromString('RBRB'), 4],
         ];
     }
 

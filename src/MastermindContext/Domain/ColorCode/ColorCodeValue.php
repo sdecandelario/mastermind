@@ -10,10 +10,12 @@ enum ColorCodeValue: string
     case Yellow = 'Y';
     case Green = 'G';
     case Blue = 'B';
+    case White = 'W';
+    case Orange = 'O';
 
     public static function random(): ColorCodeValue
     {
-        $colorIndex = random_int(0, 3);
+        $colorIndex = random_int(0, 5);
 
         return self::cases()[$colorIndex];
     }
