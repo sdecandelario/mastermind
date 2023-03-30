@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "ae313bc9-ddd5-4d98-91e7-1c572042aa6a",
+		"name": "Mastermind",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5723824"
+	},
+	"item": [
+		{
+			"name": "New game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/game",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"game"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a guess",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"colorCode\": \"AD_YOUR_COMBINATION\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/game/:id/guess",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"game",
+						":id",
+						"guess"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "GAME_ID"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/game/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"game",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "GAME_ID"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

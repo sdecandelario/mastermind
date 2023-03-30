@@ -1,3 +1,117 @@
+# Bootstrap
+First we need to generate some configuration files to the project start working.
+
+## Configuration files
+This will generate some files, we need to change the value for:
+
+* infra/mysql/.env.mysel
+* .env.local
+* .env.test.local
+
+And add the desired database credentials defined in the first place
+
+```
+make init
+```
+
+## Docker setup
+
+Before setting up the project, we need to decide if we want the dev version of php (composer & xdebug)
+
+```
+make build-dev
+```
+
+or the production ready.
+
+```
+make build-prod
+```
+
+When we have all the files in places, to setup the project then we need to do execute
+
+```
+make up
+```
+
+This will create the needed containers (mysql, php and nginx).
+
+## Dependencies
+
+When everything is up and running first of all we need to install composer dependencies
+
+```
+make composer-install 
+```
+
+## Database
+
+First of all we need to create the databases for development and testing
+
+```
+make create-database-dev
+```
+
+```
+make create-database-test
+```
+
+And after that we need to launch database migrations
+
+```
+make execute-migrations-test
+```
+
+```
+make execute-migrations-dev
+```
+
+## Testing
+To verify that everything works as expected we can launch the tests. We can decide if we want to run unit
+
+```
+make unit-tests
+```
+
+functional
+
+```
+make functional-tests
+```
+
+or to run all
+
+```
+make all-tests
+```
+
+## Code coverage
+Is super important to have in mind that for the coverage is needed xdebug, so before running be sure that you are using the dev version of the docker image.
+
+As the test we have coverage reports for unit
+
+```
+make coverage-unit
+```
+
+functional
+
+```
+make coverage-functional
+```
+
+or for all
+
+```
+make coverage-all
+```
+
+This will generate reports in the folder coverage/(unit|functional|all) depending on the action used.
+
+## Postman collection
+
+Also if you want to play a bit with the project you can use the postman collection `Mastermind.postman_collection.json`
+
 # Questions
 
 ## What is your favourite package manager and why?
