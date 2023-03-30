@@ -200,15 +200,27 @@ final class MakeGuessTest extends WebTestCase
         self::assertSame(1, $guess->whitePeg());
     }
 
-    public function testMakeAWinnerGuessEndsTheGame()
+    public function winnerGameCombination(): array
     {
-        $colorCode = ColorCode::createFromString('RYGB');
+        return [
+            ['RYGB'],
+            ['RYRY'],
+            ['RRRR'],
+        ];
+    }
+
+    /**
+     * @dataProvider winnerGameCombination
+     */
+    public function testMakeAWinnerGuessEndsTheGame(string $combination)
+    {
+        $colorCode = ColorCode::createFromString($combination);
         $game = GameBuilder::create()->withColorCode($colorCode)->build();
         $this->entityManager->persist($game);
         $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
-            'colorCode' => 'RYGB',
+            'colorCode' => $combination,
         ]);
 
         self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());

@@ -76,14 +76,11 @@ final class ColorCode
 
     public function calculateBlackPegs(ColorCode $colorCode): int
     {
-        $valueAsString = $this->value();
-        $colorCodeAsString = $colorCode->value();
+        $secretCodeCombination = $this->toArray();
         $blackPegs = 0;
 
-        for ($i = 0; $i < 4; ++$i) {
-            $position = mb_strpos($colorCodeAsString, $valueAsString[$i]);
-
-            if ($position === $i) {
+        foreach ($colorCode->toArray() as $key => $value) {
+            if ($value === $secretCodeCombination[$key]) {
                 ++$blackPegs;
             }
         }
@@ -118,5 +115,15 @@ final class ColorCode
             $this->thirdValue->value,
             $this->fourthValue->value
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            $this->firstValue->value,
+            $this->secondValue->value,
+            $this->thirdValue->value,
+            $this->fourthValue->value,
+        ];
     }
 }
