@@ -4,7 +4,7 @@ namespace App\Tests\Unit\MastermindContext\Domain\ColorCode;
 
 use App\MastermindContext\Domain\ColorCode\ColorCode;
 use App\MastermindContext\Domain\ColorCode\ColorCodeValue;
-use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeCombinationException;
+use App\MastermindContext\Domain\ColorCode\Exception\InvalidColorCodeValueException;
 use App\MastermindContext\Domain\Guess\Exception\InvalidColorCodeLengthException;
 use PHPUnit\Framework\TestCase;
 
@@ -60,8 +60,8 @@ class ColorCodeTest extends TestCase
 
     public function testCreateFromStringWithInvalidColorCode()
     {
-        $this->expectException(InvalidColorCodeCombinationException::class);
-        $this->expectExceptionMessage('The combination is wrong, the only values accepted are (R, Y, G and B)');
+        $this->expectException(InvalidColorCodeValueException::class);
+        $this->expectExceptionMessage('Invalid combination, the allowed values accepted are (R, Y, G, B, W, O)');
 
         ColorCode::createFromString('1234');
     }

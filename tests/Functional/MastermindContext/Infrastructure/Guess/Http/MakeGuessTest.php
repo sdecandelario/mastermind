@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MakeGuessTest extends WebTestCase
@@ -105,7 +104,7 @@ final class MakeGuessTest extends WebTestCase
 
         $jsonResponse = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertSame(['error' => 'The combination is wrong, the only values accepted are (R, Y, G and B)'], $jsonResponse);
+        self::assertSame(['error' => 'Invalid combination, the allowed values accepted are (R, Y, G, B, W, O)'], $jsonResponse);
     }
 
     public function testFirstGuessStartTheGame()
