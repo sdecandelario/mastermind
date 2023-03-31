@@ -58,15 +58,15 @@ execute-migrations-dev:
 
 coverage-unit:
 	#generate the coverage for unit tests
-	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Unit --coverage-html coverage/unit
+	docker-compose exec php /bin/bash -c "export XDEBUG_MODE=coverage && php bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Unit --coverage-html coverage/unit"
 
 coverage-functional:
 	#generate the coverage for functional tests
-	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Functional --coverage-html coverage/functional
+	docker-compose exec php /bin/bash -c "export XDEBUG_MODE=coverage && php bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --testsuite Functional --coverage-html coverage/functional"
 
 coverage-all:
 	#generate the coverage for all the tests
-	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --coverage-html coverage/all
+	docker-compose exec php /bin/bash -c "export XDEBUG_MODE=coverage && php bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml  --coverage-html coverage/all"
 
 cs-fixer-diff:
 	#output all the differences of the files according to the rules defined
