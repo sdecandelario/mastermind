@@ -8,6 +8,18 @@
 	"item": [
 		{
 			"name": "New game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"gameId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -31,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"colorCode\": \"AD_YOUR_COMBINATION\"\n}",
+					"raw": "{\n    \"colorCode\": \"COLOR_CODE\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +64,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "GAME_ID"
+							"value": "{{gameId}}"
 						}
 					]
 				}
@@ -77,7 +89,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "GAME_ID"
+							"value": "{{gameId}}"
 						}
 					]
 				}
