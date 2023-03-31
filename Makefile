@@ -67,3 +67,11 @@ coverage-functional:
 coverage-all:
 	#generate the coverage for all the tests
 	docker-compose exec php php /app/bin/phpunit --bootstrap /app/tests/bootstrap.php --configuration /app/phpunit.xml --coverage-html coverage/all
+
+cs-fixer-diff:
+	#output all the differences of the files according to the rules defined
+	docker-compose exec php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+cs-fixer:
+	#format all the code in the project
+	docker-compose exec php vendor/bin/php-cs-fixer fix

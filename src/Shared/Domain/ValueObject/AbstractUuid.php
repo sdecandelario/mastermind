@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObject;
 
-use App\MastermindContext\Domain\Game\Exception\InvalidGameIdException;
 use Symfony\Component\Uid\Uuid;
 
 class AbstractUuid

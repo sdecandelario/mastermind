@@ -55,6 +55,5 @@ class GetGameControllerTest extends TestCase
 
         self::assertSame(Response::HTTP_OK, $result->getStatusCode());
         self::assertSame('[]', $result->getContent());
-
     }
 }
