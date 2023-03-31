@@ -57,7 +57,7 @@ final class ColorCode
     /**
      * @throws InvalidColorCodeLengthException
      */
-    public static function validateLength(string $colorCode): void
+    private static function validateLength(string $colorCode): void
     {
         if (4 !== mb_strlen($colorCode)) {
             throw InvalidColorCodeLengthException::create();

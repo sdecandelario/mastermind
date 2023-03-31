@@ -13,7 +13,37 @@ use Symfony\Component\Uid\Uuid;
 
 final class CreateGameTest extends WebTestCase
 {
-    public function testGameIsCreated()
+    public function testGameNotCreatedWithInvalidColorCodeLengthReturnBadRequest()
+    {
+        $client = self::createClient();
+
+        $client->jsonRequest('POST', '/api/game', [
+            'colorCode' => '1',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertSame(['[colorCode]' => 'This value should have exactly 4 characters.'], $jsonResponse);
+    }
+
+    public function testGameNotCreatedWithInvalidColorCodeValuesReturnBadRequest()
+    {
+        $client = self::createClient();
+
+        $client->jsonRequest('POST', '/api/game', [
+            'colorCode' => '1111',
+        ]);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertSame(['error' => 'Invalid combination, the allowed values accepted are (R, Y, G, B, W, O)'], $jsonResponse);
+    }
+
+    public function testGameIsCreatedWithRandomColorCode()
     {
         $client = self::createClient();
         $container = self::getContainer();

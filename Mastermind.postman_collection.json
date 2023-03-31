@@ -23,6 +23,15 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"colorCode\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{baseUrl}}/api/game",
 					"host": [

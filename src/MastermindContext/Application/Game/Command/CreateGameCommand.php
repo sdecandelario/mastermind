@@ -9,12 +9,19 @@ use App\Shared\Domain\Command\CommandInterface;
 
 final class CreateGameCommand implements CommandInterface
 {
-    public function __construct(private readonly GameId $gameId)
-    {
+    public function __construct(
+        private readonly GameId $gameId,
+        private readonly ?string $colorCode = null
+    ) {
     }
 
     public function gameId(): GameId
     {
         return $this->gameId;
+    }
+
+    public function colorCode(): ?string
+    {
+        return $this->colorCode;
     }
 }
