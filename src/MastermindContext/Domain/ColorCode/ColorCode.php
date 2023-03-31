@@ -74,13 +74,14 @@ final class ColorCode
         }
     }
 
-    public function calculateBlackPegs(ColorCode $colorCode): int
+    public function calculateBlackPegs(ColorCode $secretCode): int
     {
-        $secretCodeCombination = $this->toArray();
+        $secretCodeValues = $secretCode->toArray();
+        $guessValues = $this->toArray();
         $blackPegs = 0;
 
-        foreach ($colorCode->toArray() as $key => $value) {
-            if ($value === $secretCodeCombination[$key]) {
+        foreach ($guessValues as $key => $value) {
+            if ($value === $secretCodeValues[$key]) {
                 ++$blackPegs;
             }
         }
@@ -88,19 +89,39 @@ final class ColorCode
         return $blackPegs;
     }
 
-    public function calculateWhitePegs(ColorCode $colorCode): int
+    public function calculateWhitePegs(ColorCode $secretColor): int
     {
-        $valueAsString = $this->value();
-        $colorCodeAsString = $colorCode->value();
+        $secretColorValues = $secretColor->toArray();
+        $guessValues = $this->toArray();
         $whitePegs = 0;
+        $matchedColors = [];
 
-        for ($i = 0; $i < 4; ++$i) {
-            $position = mb_strpos($colorCodeAsString, $valueAsString[$i]);
-
-            if (false !== $position && $position !== $i) {
-                ++$whitePegs;
-                $colorCodeAsString = substr_replace($colorCodeAsString, '', $position, 1);
+        foreach ($guessValues as $key => $value) {
+            if ($value === $secretColorValues[$key]) {
+                unset($secretColorValues[$key]);
+                unset($guessValues[$key]);
             }
+        }
+
+        foreach ($guessValues as $value) {
+            if (!array_key_exists($value, $matchedColors)) {
+                $matchedColors[$value] = 0;
+            }
+
+            if (!in_array($value, $secretColorValues)) {
+                continue;
+            }
+
+            $matches = $matchedColors[$value];
+
+            $repetitions = array_count_values($secretColorValues);
+
+            if ($matches >= $repetitions[$value]) {
+                continue;
+            }
+
+            ++$whitePegs;
+            ++$matchedColors[$value];
         }
 
         return $whitePegs;

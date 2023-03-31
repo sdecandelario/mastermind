@@ -171,13 +171,13 @@ final class MakeGuessTest extends WebTestCase
 
     public function testMakeAGuessWithOneWhitePeg()
     {
-        $colorCode = ColorCode::createFromString('RYGB');
-        $game = GameBuilder::create()->withColorCode($colorCode)->build();
+        $secretColorCode = ColorCode::createFromString('RYGB');
+        $game = GameBuilder::create()->withColorCode($secretColorCode)->build();
         $this->entityManager->persist($game);
         $this->entityManager->flush();
 
         $this->client->jsonRequest('POST', "/api/game/{$game->id()->__toString()}/guess", [
-            'colorCode' => 'RRRR',
+            'colorCode' => 'BBRB',
         ]);
 
         self::assertSame(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());

@@ -82,6 +82,14 @@ class ColorCodeTest extends TestCase
             [ColorCode::createFromString('RYGR'), ColorCode::createFromString('RYGB'), 3],
             [ColorCode::createFromString('RYGB'), ColorCode::createFromString('RYGB'), 4],
             [ColorCode::createFromString('GGGG'), ColorCode::createFromString('GGGG'), 4],
+            [ColorCode::createFromString('RGGB'), ColorCode::createFromString('RGGB'), 4],
+            [ColorCode::createFromString('RRRR'), ColorCode::createFromString('BYOB'), 0],
+            [ColorCode::createFromString('GBBR'), ColorCode::createFromString('GBRB'), 2],
+            [ColorCode::createFromString('BBBR'), ColorCode::createFromString('RBGG'), 1],
+            [ColorCode::createFromString('RBGG'), ColorCode::createFromString('BBBR'), 1],
+            [ColorCode::createFromString('BBBR'), ColorCode::createFromString('BBBR'), 4],
+            [ColorCode::createFromString('WBWB'), ColorCode::createFromString('BWBW'), 0],
+            [ColorCode::createFromString('OWWW'), ColorCode::createFromString('OOOW'), 2],
         ];
     }
 
@@ -99,20 +107,28 @@ class ColorCodeTest extends TestCase
     {
         return [
             [ColorCode::createFromString('RYGB'), ColorCode::createFromString('RYGB'), 0],
-            [ColorCode::createFromString('BBBB'), ColorCode::createFromString('RYGB'), 1],
-            [ColorCode::createFromString('GBBB'), ColorCode::createFromString('RYGB'), 2],
-            [ColorCode::createFromString('BRYB'), ColorCode::createFromString('RYGB'), 3],
+            [ColorCode::createFromString('GBBB'), ColorCode::createFromString('RYGB'), 1],
+            [ColorCode::createFromString('BRYB'), ColorCode::createFromString('RYGB'), 2],
+            [ColorCode::createFromString('OBRY'), ColorCode::createFromString('RYGB'), 3],
             [ColorCode::createFromString('BRYG'), ColorCode::createFromString('RYGB'), 4],
-            [ColorCode::createFromString('BRBR'), ColorCode::createFromString('RBRB'), 4],
+            [ColorCode::createFromString('BRRR'), ColorCode::createFromString('RYGB'), 2],
+            [ColorCode::createFromString('RGGB'), ColorCode::createFromString('RGGB'), 0],
+            [ColorCode::createFromString('RRRR'), ColorCode::createFromString('BYOB'), 0],
+            [ColorCode::createFromString('GBBR'), ColorCode::createFromString('GBRB'), 2],
+            [ColorCode::createFromString('BBBR'), ColorCode::createFromString('RBGG'), 1],
+            [ColorCode::createFromString('RBGG'), ColorCode::createFromString('BBBR'), 1],
+            [ColorCode::createFromString('BBBR'), ColorCode::createFromString('BBBR'), 0],
+            [ColorCode::createFromString('WBWB'), ColorCode::createFromString('BWBW'), 4],
+            [ColorCode::createFromString('OWWW'), ColorCode::createFromString('OOOW'), 0],
         ];
     }
 
     /**
      * @dataProvider colorCodeWithWhitePegs
      */
-    public function testCalculateWhitePegs(ColorCode $colorCode, ColorCode $secretColorCode, int $whitePegs)
+    public function testCalculateWhitePegs(ColorCode $guessColorCode, ColorCode $secretColorCode, int $whitePegs)
     {
-        $result = $colorCode->calculateWhitePegs($secretColorCode);
+        $result = $guessColorCode->calculateWhitePegs($secretColorCode);
 
         self::assertSame($whitePegs, $result);
     }
