@@ -4,7 +4,7 @@ First we need to generate some configuration files to the project start working.
 ## Configuration files
 This will generate some files, we need to change the value for:
 
-* infra/mysql/.env.mysel
+* infra/mysql/.env.mysql
 * .env.local
 * .env.test.local
 
