@@ -156,7 +156,7 @@ In php there are plenty of tools for this purpose, here are some of them:
 * [Rector](https://getrector.com/): This one is super-useful, not only to make quick adaptations of the code but also to make library and framework migrations
 * [SonarCloud|SonarQube](sonarcloud.io): A tool that can be deployed on our systems or live in the cloud, notify about low coverage, technical debt or some security issues
 * [PHP MD](https://phpmd.org/): This one lost a bit of popularity lately, but in his time was a good choice also, another tool to review cyclomatic complexity and some code improvements
-* [ESLint](https://eslint.org/): Used in the javascript ecosystem, not used but hear is one of the most useful tools to clean and addapt code
+* [ESLint](https://eslint.org/): Used in the javascript ecosystem, not used but hear is one of the most useful tools to clean and adapt code
 * [PyLint](https://pylint.readthedocs.io/en/latest/): Linter for python code
 
 There are a lot of other tools, for the different languages and platforms.
@@ -176,7 +176,7 @@ Nginx was used for web server for the easy configuration and good performance.
 ### Approach
 For the development of the application I follow an approximation of BDD.
 
-With this strategy I was able to start from the top, the request to the endpoint and go dipper to the implementation details. 
+With this strategy I was able to start from the top, the request to the endpoint and go deeper to the implementation details. 
 
 This give me the possibility to avoid early refactoring or optimization and validate the logic.
 
